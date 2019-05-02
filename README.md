@@ -1,6 +1,6 @@
 # AtEx
 
-This is yet another Elixir wrapper for the [Africas Talking Api] (https://build.at-labs.io/)
+This is yet another Elixir wrapper for the [Africas Talking Api](https://build.at-labs.io/)
 
 ## Getting Started 
 We love working and learning alongside the open source community and contributions are always welcome. We want to learn from you!
