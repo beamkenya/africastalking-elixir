@@ -25,7 +25,5 @@ defmodule AtEx.USSDTest do
         test "errors out if the list is empty" do
             assert {:error, _} = USSD.build_response([])
         end
-
-
     end
 end
