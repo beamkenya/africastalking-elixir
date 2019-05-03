@@ -1,18 +1,10 @@
 defmodule AtEx do
   @moduledoc """
-  Documentation for AtEx.
+  AtEx is an Elixir Wrapper for the Africas Talking Api
+
+  Use this library to handle interaction with the Africas Talking API end points,
+  It is most useful for
+  - Consuming incoming events that have been parsed
+  - Building valid responses
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AtEx.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
