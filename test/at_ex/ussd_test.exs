@@ -11,7 +11,8 @@ defmodule AtEx.USSDTest do
         test "responds with a con status if list is longer than one" do
             valid_resp = "CON What would you want to check  \n 1. My Account \n 2. My phone number"
 
-            assert {:ok, valid_resp} = USSD.build_response(@responses)
+            assert [valid_resp|_] = USSD.build_response(@responses)
+
         end
 
         test "responds with an end string if the input list is of size 1" do

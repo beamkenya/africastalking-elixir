@@ -16,7 +16,7 @@ defmodule AtEx.USSD do
                 title = "CON " <>  title
 
                 list_resp =
-                for i <- 0..length(resp_map.answers), do: "#{i+1}. Enum.at(responses, i)"
+                for i <- 0..length(responses) - 1, do:  "#{i + 1}. #{ Enum.at(responses, i)} "
 
 
             val when length(val) ==  1 ->
