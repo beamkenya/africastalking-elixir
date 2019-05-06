@@ -9,5 +9,6 @@ env:
 
 before_script:
   - mix deps.get
+  - mix format --check-formatted
 script:
-  - mix test
+  - MIX_ENV=test mix test
