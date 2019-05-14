@@ -5,3 +5,6 @@ config :at_ex,
   content_type: "application/json",
   accept: "application/json",
   auth_token: ""
+
+# mock tesla calls for all clients
+config :tesla, adapter: Tesla.Mock
