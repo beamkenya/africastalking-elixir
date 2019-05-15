@@ -11,12 +11,12 @@ defmodule AtEx.Gateway.Sms do
   ## Parametets
   - params: A map of parameters containing valid Sms Send inputs refer to https://build.at-labs.io/docs/sms%2Fsending
   """
-  @spec send_sms() :: {:ok, map()} | {:error, term()}
+  @spec send_sms(map()) :: {:ok, map()} | {:error, term()}
   def send_sms(params) do
     query =
       params
       |> Map.put(:username, @username)
-      |> Map.to_list(params)
+      |> Map.to_list()
 
     client = build_client()
 
@@ -31,11 +31,12 @@ defmodule AtEx.Gateway.Sms do
   ## Paramters 
   map: - A map containing the last_received_id key for the last message the default is 0
   """
+  @spec fetch_sms(map()) :: {:ok, term()} | {:error, term()}
   def fetch_sms(params) do
     query =
       params
       |> Map.put(:username, @username)
-      |> Map.to_list(params)
+      |> Map.to_list()
 
     client = build_client()
 
@@ -45,7 +46,7 @@ defmodule AtEx.Gateway.Sms do
 
   @spec process_result(Tesla.Env.t()) :: {:ok, term()} | {:error, term}
   defp process_result(result) do
-    with {:ok, %{status: 200}} <- result do
+    with {:ok, %{status: 200} = resp} <- result do
       {:ok, resp.body}
     else
       {:error, val} ->
