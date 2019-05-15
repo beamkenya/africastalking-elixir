@@ -3,6 +3,8 @@ defmodule AtEx.Gateway.Sms do
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   """
 
+  @username Application.get_env(:at_ex, :username)
+
   @doc """
   Sends HTTP Post request to the AT API to send out SMSes
 
@@ -11,11 +13,39 @@ defmodule AtEx.Gateway.Sms do
   """
   @spec send_sms() :: {:ok, map()} | {:error, term()}
   def send_sms(params) do
-    query = Map.to_list(params)
+    query =
+      params
+      |> Map.put(:username, @username)
+      |> Map.to_list(params)
 
-    client = build_client(:send_sms)
+    client = build_client()
 
-    with {:ok, %{status: 200}} <- Tesla.post(client, "/messaging", query: query) do
+    Tesla.post(client, "/messaging", query: query)
+    |> process_result()
+  end
+
+  @doc """
+  Sends a HTTP GET request to collect the messages in the applications inbox, this function  accepts a 
+  map of parameters containing the last received id and an apploication username
+
+  ## Paramters 
+  map: - A map containing the last_received_id key for the last message the default is 0
+  """
+  def fetch_sms(params) do
+    query =
+      params
+      |> Map.put(:username, @username)
+      |> Map.to_list(params)
+
+    client = build_client()
+
+    Tesla.get(client, "/messaging", query: query)
+    |> process_result()
+  end
+
+  @spec process_result(Tesla.Env.t()) :: {:ok, term()} | {:error, term}
+  defp process_result(result) do
+    with {:ok, %{status: 200}} <- result do
       {:ok, resp.body}
     else
       {:error, val} ->
@@ -26,11 +56,8 @@ defmodule AtEx.Gateway.Sms do
     end
   end
 
-  def fetch_sms() do
-  end
-
-  @spec build_client(atom()) :: Tesla.Client.t()
-  defp build_client(:send_sms) do
+  @spec build_client() :: Tesla.Client.t()
+  defp build_client() do
     env = Application.get_env(:at_ex, :endpoint)
 
     base_url =
