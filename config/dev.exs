@@ -7,4 +7,5 @@ config :at_ex,
   content_type: "application/x-www-form-urlencoded",
   accept: "application/json",
   auth_token: "",
+  username: "sandbox",
   endpoint: "sandbox"
