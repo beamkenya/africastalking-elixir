@@ -34,6 +34,26 @@ defmodule AtEx.Gateway.SmsTest do
               }
             })
         }
+
+      %{method: :get} ->
+        %Tesla.Env{
+          status: 200,
+          body:
+            Jason.encode!(%{
+              "SMSMessageData" => %{
+                "Messages" => [
+                  %{
+                    linkId: "SampleLinkId123",
+                    text: "Hello",
+                    to: "28901",
+                    id: 15071,
+                    date: "2018-03-19T08:34:18.445Z",
+                    from: "+254711XXXYYY"
+                  }
+                ]
+              }
+            })
+        }
     end)
 
     :ok
@@ -64,6 +84,16 @@ defmodule AtEx.Gateway.SmsTest do
     end
 
     test "fetches sms" do
+      send_details = %{}
+
+      # run details through our code
+      {:ok, result} = Sms.fetch_sms(send_details)
+
+      # assert our code gives us a single element list of messages
+      [msg] = result["SMSMessageData"]["Messages"]
+
+      # assert that message details correspond to details of set up message
+      assert msg["text"] == "Hello"
     end
   end
 end
