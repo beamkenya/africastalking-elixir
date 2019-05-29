@@ -1,7 +1,7 @@
-defmodule AtEX.Application.ApplicationData do
+defmodule AtEx.Gateway.Application do
   @moduledoc """
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
-  SMS endpoint, use it to POST and GET requests to the SMS endpoint
+  Application Data endpoint, use it to POST and GET requests to the Application endpoint
   """
   use Tesla
 
@@ -11,20 +11,27 @@ defmodule AtEX.Application.ApplicationData do
 
   plug(Tesla.Middleware.BaseUrl, "https://api.sandbox.africastalking.com/version1")
   plug(Tesla.Middleware.FormUrlencoded)
-  plug(Tesla.Middleware.Headers, [{"accept", @accept}, {"apikey", @key}, {"apikey", @key}])
+  plug(Tesla.Middleware.Headers, [{"accept", @accept}, {"content-type", @key}, {"apikey", @key}])
 
   @doc """
+  Collects application data from Africas Talking endpoint, Use this function to collect 
+  Data about your application 
 
+  ## Parameters
+  * `none`
+
+  ## Examples 
+      iex> AtEx.Gateway.Application.get_data()
   """
-
-  def get_application_data(attrs) do
+  @spec get_data :: {:ok, map()} | {:error, term()}
+  def get_data do
     username = Application.get_env(:at_ex, :username)
 
     params =
-      attrs
+      %{}
       |> Map.put(:username, username)
 
-    with {:ok, res} <- get("/user", query: params) do
+    with {:ok, %{status: 200} = res} <- get("/user", query: params) do
       {:ok, Jason.decode!(res.body)}
     else
       {:ok, val} ->
