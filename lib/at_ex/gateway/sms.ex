@@ -51,11 +51,8 @@ defmodule AtEx.Gateway.Sms do
 
   @spec fetch_sms(map()) :: {:error, any()} | {:ok, any()}
   def fetch_sms(attrs) do
-    username = Application.get_env(:at_ex, :username)
-
     params =
       attrs
-      |> Map.put(:username, username)
       |> Map.to_list()
 
     with {:ok, %{status: 200} = res} <- get("/messaging", query: params) do

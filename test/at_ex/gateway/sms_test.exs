@@ -7,6 +7,8 @@ defmodule AtEx.Gateway.SmsTest do
   alias AtEx.Gateway.Sms
 
   @attr "username="
+  @attr2 ""
+
   setup do
     Tesla.Mock.mock(fn
       %{method: :post, body: @attr} ->
@@ -54,6 +56,12 @@ defmodule AtEx.Gateway.SmsTest do
               }
             })
         }
+
+      %{method: :get} ->
+        %Tesla.Env{
+          status: 404,
+          body: "Request is missing required query parameter 'username'"
+        }
     end)
 
     :ok
@@ -84,16 +92,25 @@ defmodule AtEx.Gateway.SmsTest do
     end
 
     test "fetches sms" do
-      send_details = %{}
+      send_details = %{username: "sandbox"}
 
       # run details through our code
       {:ok, result} = Sms.fetch_sms(send_details)
-
       # assert our code gives us a single element list of messages
       [msg] = result["SMSMessageData"]["Messages"]
 
       # assert that message details correspond to details of set up message
       assert msg["text"] == "Hello"
+    end
+
+    test "fetching sms should error out without a username" do
+      # run details through our code
+      {:error, result} = Sms.fetch_sms(%{})
+      IO.inspect(result)
+
+      "Request is missing required query parameter 'username'" = result.message
+
+      404 = result.status
     end
   end
 end
