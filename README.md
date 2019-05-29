@@ -10,12 +10,12 @@ To start helping go through
 
 
 ## Coverage 
-- [ ] SMS
+- [x] SMS
 - [ ] Voice 
-- [ ] USSD 
+- [x] USSD 
 - [ ] Airtime
 - [ ] Payments 
-- [ ] Application
+- [x] Application
 
 
 ## Installation
