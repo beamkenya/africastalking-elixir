@@ -95,6 +95,5 @@ defmodule AtEx.Gateway.SmsTest do
       # assert that message details correspond to details of set up message
       assert msg["text"] == "Hello"
     end
-
   end
 end
