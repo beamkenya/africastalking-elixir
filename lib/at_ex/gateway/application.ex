@@ -11,16 +11,21 @@ defmodule AtEx.Gateway.Application do
 
   plug(Tesla.Middleware.BaseUrl, "https://api.sandbox.africastalking.com/version1")
   plug(Tesla.Middleware.FormUrlencoded)
-  plug(Tesla.Middleware.Headers, [{"accept", @accept}, {"content-type", @key}, {"apikey", @key}])
+
+  plug(Tesla.Middleware.Headers, [
+    {"accept", @accept},
+    {"content-type", @content_type},
+    {"apikey", @key}
+  ])
 
   @doc """
-  Collects application data from Africas Talking endpoint, Use this function to collect 
-  Data about your application 
+  Collects application data from Africas Talking endpoint, Use this function to collect
+  Data about your application
 
   ## Parameters
   * `none`
 
-  ## Examples 
+  ## Examples
       iex> AtEx.Gateway.Application.get_data()
   """
   @spec get_data :: {:ok, map()} | {:error, term()}

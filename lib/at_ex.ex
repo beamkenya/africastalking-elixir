@@ -7,4 +7,9 @@ defmodule AtEx do
   - Consuming incoming events that have been parsed
   - Building valid responses
   """
+  alias AtEx.{
+    Gateway.Airtime
+  }
+
+  defdelegate send_airtime(map), to: Airtime
 end
