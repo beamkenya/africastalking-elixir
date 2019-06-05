@@ -27,15 +27,14 @@ defmodule AtEx.Gateway.Airtime do
       |> Map.put(:username, username)
       |> Map.put(:recipients, Jason.encode!(people))
 
-    with {:ok, %{status: 201} = res} <- post("/send", params),
-         {:ok, %{"responses" => _} = res} <- process_result(res.body) do
-      {:ok, res}
+    with {:ok, %{status: 201} = res} <- post("/send", params) do
+      {:ok, Jason.decode!(res.body)}
     else
-      {:ok, %{status: st, body: b}} ->
-        {:error, %{message: b, status: st}}
+      {:ok, val} ->
+        {:error, %{status: val.status, message: val.body}}
 
-      {:ok, data} ->
-        {:error, data}
+      {:error, message} ->
+        {:error, message}
     end
   end
 end
