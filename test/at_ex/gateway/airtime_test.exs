@@ -3,7 +3,7 @@ defmodule AtEx.Gateway.AirtimeTest do
   This module holds unit tests for the functions in the SMS gateway
   """
   use ExUnit.Case
-
+  doctest AtEx.Gateway.Airtime
   alias AtEx.Gateway.Airtime
 
   @attr "username="
@@ -45,7 +45,7 @@ defmodule AtEx.Gateway.AirtimeTest do
   describe " Airtime Gateway" do
     test "sends_airtime/1 should send airtime to recipient" do
       # make message details
-      send_details = %{recipients: [%{"phoneNumber" => "+254728833158", "amount" => "KES 10"}]}
+      send_details = %{recipients: [%{phone_number: "+254728833158", amount: "KES 10"}]}
 
       # run details through our code
       {:ok, result} = Airtime.send_airtime(send_details)
@@ -57,13 +57,13 @@ defmodule AtEx.Gateway.AirtimeTest do
       assert msg["amount"] == "KES 10.0000"
     end
 
-    # test "sends_airtime/1 should error out without phone number parameter" do
-    #   # run details through our code
-    #   {:error, result} = Airtime.send_airtime(%{})
+    test "sends_airtime/1 should raise if recipient entry is invalid" do
+      # make message details
+      send_details = %{recipients: [%{"phoneNumber" => "+254728833158", "amount" => "KES 10"}]}
 
-    #   "Request is missing required form field 'to'" = result.message
-
-    #   400 = result.status
-    # end
+      assert_raise ArgumentError, fn ->
+        Airtime.send_airtime(send_details)
+      end
+    end
   end
 end
