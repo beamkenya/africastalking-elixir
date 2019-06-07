@@ -7,9 +7,14 @@ defmodule AtEx do
   - Consuming incoming events that have been parsed
   - Building valid responses
   """
-  alias AtEx.{
-    Gateway.Airtime
+  alias AtEx.Gateway.{
+    Airtime,
+    Application,
+    Sms
   }
 
   defdelegate send_airtime(map), to: Airtime
+  defdelegate get_data(), to: Application
+  defdelegate send_sms(map), to: Sms
+  defdelegate fetch_sms(map), to: Sms
 end

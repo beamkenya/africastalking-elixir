@@ -16,7 +16,6 @@ defmodule AtEx.Gateway.Airtime do
   * `map`: map containg a recipiests which is a list of maps each with a phone number and amount
 
   ## Examples
-      
       AtEx.Airtime.send_airtime(%{recipients: [%{phone_number: +254721978097, amount: "KES 50"}]})
   """
   @spec send_airtime(send_input()) :: call_return()
