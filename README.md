@@ -13,7 +13,7 @@ To start helping go through
 - [x] SMS
 - [ ] Voice 
 - [x] USSD 
-- [ ] Airtime
+- [x] Airtime
 - [ ] Payments 
 - [x] Application
 
