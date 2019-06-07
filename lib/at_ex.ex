@@ -14,7 +14,7 @@ defmodule AtEx do
   }
 
   defdelegate send_airtime(map), to: Airtime
-  defdelegate get_data(), to: Application
+  defdelegate get_application_data(), to: Application, as: :get_data
   defdelegate send_sms(map), to: Sms
   defdelegate fetch_sms(map), to: Sms
 end
