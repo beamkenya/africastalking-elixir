@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/{elixirkenya}/{africastalking-elixir}.png?branch=master)](https://travis-ci.org/{elixirkenya}/{africastalking-elixir})
+[![Build Status](https://travis-ci.org/elixirkenya/africastalking-elixir.svg?branch=master)](https://travis-ci.org/elixirkenya/africastalking-elixir)
+<br />
 # AtEx
 
 This is yet another Elixir wrapper for the [Africas Talking Api](https://build.at-labs.io/)
