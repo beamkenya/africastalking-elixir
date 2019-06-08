@@ -23,7 +23,6 @@ defmodule AtEx do
   ## Examples
 
       iex> AtEx.send_airtime(%{recipients: [%{phone_number: "+254721978097", amount: "KES 50"}]})
-
       {:ok,
         %{
           "errorMessage" => "None",
@@ -97,13 +96,13 @@ defmodule AtEx do
 
   ## Examples
       iex> AtEx.fetch_sms(%{})
-       {:ok,
-         %{"SMSMessageData" =>
+      {:ok,
+        %{"SMSMessageData" =>
           %{"Messages" =>
-           []
+            []
           }
-         }
-       }
+        }
+      }
 
   """
 
