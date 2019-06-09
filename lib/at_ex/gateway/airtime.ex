@@ -13,7 +13,7 @@ defmodule AtEx.Gateway.Airtime do
   phone numbers and an amount of airtime to send out to a number this is expected in the `recipients` key.
 
   ## Parameters
-  * `map`: map containg a recipients which is a list of maps each with a phone number and amount
+  * `map`: map containing a recipients which is a list of maps each with a phone number and amount
 
   ## Examples
       AtEx.Airtime.send_airtime(%{recipients: [%{phone_number: +254721978097, amount: "KES 50"}]})
