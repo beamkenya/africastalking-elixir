@@ -3,20 +3,7 @@ defmodule AtEx.Gateway.Application do
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   Application Data endpoint, use it to POST and GET requests to the Application endpoint
   """
-  use Tesla
-
-  @accept Application.get_env(:at_ex, :accept)
-  @key Application.get_env(:at_ex, :api_key)
-  @content_type Application.get_env(:at_ex, :content_type)
-
-  plug(Tesla.Middleware.BaseUrl, "https://api.sandbox.africastalking.com/version1")
-  plug(Tesla.Middleware.FormUrlencoded)
-
-  plug(Tesla.Middleware.Headers, [
-    {"accept", @accept},
-    {"content-type", @content_type},
-    {"apikey", @key}
-  ])
+  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
 
   @doc """
   Collects application data from Africas Talking endpoint, Use this function to collect

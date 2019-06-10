@@ -4,28 +4,27 @@ defmodule AtEx.Gateway.Base do
   """
 
   @doc """
-  Macro to import necessary code into HTTP Gateways, This Macro accepts a list as configuration at the moment it's used 
-  configure the  HTTP Base Url. 
+  Macro to import necessary code into HTTP Gateways, This Macro accepts a list as configuration at the moment it's used
+  configure the  HTTP Base Url.
 
-  ## Parameters 
-  * list: list of parameters for HTTP client configuration 
+  ## Parameters
+  * list: list of parameters for HTTP client configuration
 
-  ## Examples 
+  ## Examples
 
-      defmodule AtEx.Gateway.Voice do 
+      defmodule AtEx.Gateway.Voice do
         use AtEx.Gateway.Base, url: "http://test.com"
         @username "some_username"
 
-        def collect_minutes(attrs) do 
+        def collect_minutes(attrs) do
           params =
           attrs
           |> Map.put(:username, @username)
 
           {:ok, resp} = get("/minutes", params)
-          
           process_result(resp.body)
-        end   
-      end 
+        end
+      end
   """
   defmacro __using__(opts) do
     quote do

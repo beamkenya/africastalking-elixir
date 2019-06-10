@@ -3,14 +3,7 @@ defmodule AtEx.Gateway.Sms do
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
   """
-  use Tesla
-
-  @accept Application.get_env(:at_ex, :accept)
-  @key Application.get_env(:at_ex, :api_key)
-
-  plug(Tesla.Middleware.BaseUrl, "https://api.sandbox.africastalking.com/version1")
-  plug(Tesla.Middleware.FormUrlencoded)
-  plug(Tesla.Middleware.Headers, [{"accept", @accept}, {"apikey", @key}])
+  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
 
   @doc """
   This function builds and runs a post request to send an SMS via the Africa's talking SMS endpoint, this
