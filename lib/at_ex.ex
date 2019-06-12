@@ -14,7 +14,7 @@ defmodule AtEx do
   - Application
 
   ## Getting Started
-  Configure default required set up in `config/config.exs` (required).
+  Configuration.
     # config/config.exs
     config :at_ex,
       api_key: "YOURAPIKEY",
