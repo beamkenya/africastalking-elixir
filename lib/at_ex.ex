@@ -14,8 +14,7 @@ defmodule AtEx do
   - Application
 
   ## Getting Started
-  Configuration.
-    # config/config.exs
+  Configuration
     config :at_ex,
       api_key: "YOURAPIKEY",
       content_type: "application/x-www-form-urlencoded",
