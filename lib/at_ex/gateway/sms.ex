@@ -61,4 +61,55 @@ defmodule AtEx.Gateway.Sms do
         {:error, message}
     end
   end
+
+  @doc """
+  This function fetches the checkout token from the checkout token endpoint
+  THIS IS DIFFERENT THAN THE SMS ENDPOINT!!
+
+  phone_number: - a string representing a valid phone number in EL64 
+  (+<country code><phone number> with all non digit characters removed)
+  [NOTE:  function does not verify the phone number is in any way correct
+   before sending to the endpoint.]
+
+  Returns a success tuple: {:ok, <client_token>}} or {:error, <reason>}
+  """
+
+  # This should probably be a config value, since it only needs to be
+  # the sandbox in test and dev environments. It should be the live one
+  # in prod.
+  @token_url "https://api.sandbox.africastalking.com/checkout/token"
+
+  @spec generate_checkout_token(String.t()) :: {:error, any()} | {:ok, any()}
+  def generate_checkout_token(phone_number) do
+    # Can't use the default client, since we have a different URL
+    token_middleware = [
+      {Tesla.Middleware.BaseUrl, @token_url},
+      Tesla.Middleware.FormUrlencoded
+    ]
+
+    with {:ok, %Tesla.Env{body: body, status: 201}} <-
+           Tesla.post(Tesla.client(token_middleware), "/create", %{phoneNumber: phone_number}),
+         {:ok, body} <- Jason.decode(body) do
+      case body do
+        # Only success case
+        %{"description" => "Success", "token" => token} ->
+          {:ok, token}
+
+        %{"description" => "Failure", "token" => message} ->
+          {:error, "Failure - #{message}"}
+
+        %{"description" => message, "token" => "None"} ->
+          {:error, "Failure - #{message}"}
+
+        _ ->
+          {:error, "Failure - Unknown Error"}
+      end
+    else
+      {:ok, %Tesla.Env{status: status, body: body}} ->
+        {:error, "#{status} - #{body}"}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
 end
