@@ -8,22 +8,15 @@ defmodule AtEx.Gateway.SmsTest do
 
   @attr "username="
 
-  # Endpoint for getting the checkout token (should be migrated to config)
+  # Endpoint for getting the checkout token 
+  # Unless overridden, we will always use the sandbox URL during test
+  # If overridden, all the checkout token tests will fail.
   @checkout_token_url "https://api.sandbox.africastalking.com/checkout/token/create"
-  @success_checkout_phonenumber "+254728833181"
-  @success_checkout_query URI.encode_query(%{phoneNumber: @success_checkout_phonenumber})
+
+  # Values needed for checkout token tests
+  @checkout_token_phonenumber "+254728833181"
+  @checkout_token_query URI.encode_query(%{phoneNumber: @checkout_token_phonenumber})
   @checkout_token "CkTkn_SampleCkTknId123"
-  @checkout_status_failure_phonenumber "+17275551212"
-  @checkout_status_failure URI.encode_query(%{phoneNumber: @checkout_status_failure_phonenumber})
-  @checkout_description_failure_failure_phonenumber "+254728833182"
-  @checkout_description_failure_failure URI.encode_query(%{
-                                          phoneNumber:
-                                            @checkout_description_failure_failure_phonenumber
-                                        })
-  @checkout_token_none_failure_phonenumber "+254728833183"
-  @checkout_token_none_failure URI.encode_query(%{
-                                 phoneNumber: @checkout_token_none_failure_phonenumber
-                               })
 
   setup do
     Tesla.Mock.mock(fn
@@ -31,46 +24,6 @@ defmodule AtEx.Gateway.SmsTest do
         %Tesla.Env{
           status: 400,
           body: "Request is missing required form field 'to'"
-        }
-
-      # Mock for checkout token success
-      %{method: :post, url: @checkout_token_url, body: @success_checkout_query} ->
-        %Tesla.Env{
-          status: 201,
-          body:
-            Jason.encode!(%{
-              "description" => "Success",
-              "token" => @checkout_token
-            })
-        }
-
-      # Mock for checkout token failure due to status code.
-      %{method: :post, url: @checkout_token_url, body: @checkout_status_failure} ->
-        %Tesla.Env{
-          status: 500,
-          body: "Failure message"
-        }
-
-      # Mock for checkout token failure due to "token": "None"
-      %{method: :post, url: @checkout_token_url, body: @checkout_token_none_failure} ->
-        %Tesla.Env{
-          status: 201,
-          body:
-            Jason.encode!(%{
-              "description" => "Error Message",
-              "token" => "None"
-            })
-        }
-
-      # Mock for checkout token failure due to "description":  "Failure"
-      %{method: :post, url: @checkout_token_url, body: @checkout_description_failure_failure} ->
-        %Tesla.Env{
-          status: 201,
-          body:
-            Jason.encode!(%{
-              "description" => "Failure",
-              "token" => "Potential Error Message"
-            })
         }
 
       %{method: :post} ->
@@ -153,26 +106,72 @@ defmodule AtEx.Gateway.SmsTest do
       assert msg["text"] == "Hello"
     end
 
+    # Checkout token tests need their own mock calls, or we would need 
+    # separate phone numbers for each test.  This way values can be
+    # reused.
+
     test "fetch checkout token successfully" do
-      assert {:ok, token} = Sms.generate_checkout_token(@success_checkout_phonenumber)
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Success",
+                "token" => @checkout_token
+              })
+          }
+      end)
+
+      assert {:ok, token} = Sms.generate_checkout_token(@checkout_token_phonenumber)
       assert token == @checkout_token
     end
 
     test "fetch checkout token failure token: none" do
-      assert {:error, message} =
-               Sms.generate_checkout_token(@checkout_token_none_failure_phonenumber)
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Error Message",
+                "token" => "None"
+              })
+          }
+      end)
+
+      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Error Message"
     end
 
     test "fetch checkout token failure status code" do
-      assert {:error, message} = Sms.generate_checkout_token(@checkout_status_failure_phonenumber)
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 500,
+            body: "Failure message"
+          }
+      end)
+
+      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
       assert message = "500 - Error Message"
     end
 
     test "fetch checkout token failure description: Failure" do
-      assert {:error, message} =
-               Sms.generate_checkout_token(@checkout_description_failure_failure_phonenumber)
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Failure",
+                "token" => "Potential Error Message"
+              })
+          }
+      end)
+
+      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Potential Error Message"
     end
