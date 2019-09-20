@@ -61,4 +61,66 @@ defmodule AtEx.Gateway.Sms do
         {:error, message}
     end
   end
+
+  # Checkout token endpoints
+  @live_token_url "https://api.africastalking.com/checkout/token"
+  @sandbox_token_url "https://api.sandbox.africastalking.com/checkout/token"
+
+  # Using this system for delivery of which URL to use (sandbox or live) 
+  # determined by whether we ar in production or development or test
+  # Selection of the live URL can be forced by setting an environment
+  # variable FORCE_TOKEN_LIVE=YES
+  defp get_token_url do
+    cond do
+      Mix.env() == :prod -> @live_token_url
+      System.get_env("FORCE_TOKEN_LIVE") == "YES" -> @live_token_url
+      true -> @sandbox_token_url
+    end
+  end
+
+  @doc """
+  This function fetches the checkout token from the checkout token endpoint
+  THIS IS DIFFERENT THAN THE SMS ENDPOINT!!
+
+  phone_number: - a string representing a valid phone number in EL64 
+  (+<country code><phone number> with all non digit characters removed)
+  [NOTE:  function does not verify the phone number is in any way correct
+   before sending to the endpoint.]
+
+  Returns a success tuple: {:ok, <client_token>}} or {:error, <reason>}
+  """
+
+  @spec generate_checkout_token(String.t()) :: {:error, any()} | {:ok, any()}
+  def generate_checkout_token(phone_number) do
+    # Can't use the default client, since we have a different URL
+    token_middleware = [
+      {Tesla.Middleware.BaseUrl, get_token_url()},
+      Tesla.Middleware.FormUrlencoded
+    ]
+
+    with {:ok, %Tesla.Env{body: body, status: 201}} <-
+           Tesla.post(Tesla.client(token_middleware), "/create", %{phoneNumber: phone_number}),
+         {:ok, body} <- Jason.decode(body) do
+      case body do
+        # Only success case
+        %{"description" => "Success", "token" => token} ->
+          {:ok, token}
+
+        %{"description" => "Failure", "token" => message} ->
+          {:error, "Failure - #{message}"}
+
+        %{"description" => message, "token" => "None"} ->
+          {:error, "Failure - #{message}"}
+
+        _ ->
+          {:error, "Failure - Unknown Error"}
+      end
+    else
+      {:ok, %Tesla.Env{status: status, body: body}} ->
+        {:error, "#{status} - #{body}"}
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
 end
