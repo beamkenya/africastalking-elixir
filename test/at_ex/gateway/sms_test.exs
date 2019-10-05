@@ -18,6 +18,8 @@ defmodule AtEx.Gateway.SmsTest do
   @checkout_token_query URI.encode_query(%{phoneNumber: @checkout_token_phonenumber})
   @checkout_token "CkTkn_SampleCkTknId123"
 
+  @create_subscription_url "https://api.sandbox.africastalking.com/version1/subscription/create"
+
   setup do
     Tesla.Mock.mock(fn
       %{method: :post, body: @attr} ->
@@ -174,6 +176,70 @@ defmodule AtEx.Gateway.SmsTest do
       assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Potential Error Message"
+    end
+
+    test "create subscription success" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Success",
+                "token" => @checkout_token
+              })
+          }
+
+        %{method: :post, url: @create_subscription_url} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Waiting for user input",
+                "status" => "Success"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.create_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+      assert response["status"] == "Success"
+    end
+
+    test "create subscription failure - invalid shortCode" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Success",
+                "token" => @checkout_token
+              })
+          }
+
+        %{method: :post, url: @create_subscription_url} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Please ensure 99999 is configured under your API account",
+                "status" => "Failed"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.create_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "99999",
+                 keyword: "music"
+               })
+      assert response["status"] == "Failed"
     end
   end
 end

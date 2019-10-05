@@ -131,9 +131,9 @@ defmodule AtEx.Gateway.Sms do
 
   ## Parameters
   attrs: - a map containing:
-  - `short_code` - premium short code mapped to your account
+  - `shortCode` - premium short code mapped to your account
   - `keyword` - premium keyword under the above short code mapped to your account
-  - `phone_number` - phone number to be subscribed
+  - `phoneNumber` - phone number to be subscribed
 
   ## Example
       iex> AtEx.Gateway.Sms.create_subscription(%{
