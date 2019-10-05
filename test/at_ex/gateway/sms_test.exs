@@ -287,5 +287,52 @@ defmodule AtEx.Gateway.SmsTest do
 
       assert response.message == "Request is missing required query parameter 'shortCode'"
     end
+
+    test "delete subscription success" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @subscription_url <> "/delete"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                status: "Success",
+                description: "Succeeded"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.delete_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+
+      assert response["description"] == "Succeeded"
+      assert response["status"] == "Success"
+    end
+
+    test "delete subscription failure" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @subscription_url <> "/delete"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                description: "Please ensure 99900 is configured under your API account",
+                status: "Failed"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.delete_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "99900",
+                 keyword: "music"
+               })
+
+      assert response["status"] == "Failed"
+    end
   end
 end

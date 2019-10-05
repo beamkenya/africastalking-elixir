@@ -205,4 +205,41 @@ defmodule AtEx.Gateway.Sms do
         {:error, message}
     end
   end
+
+  @doc """
+  This function makes a POST request to delete sms subscriptions via the Africa's talking subscription endpoint, this
+  function accepts an map of parameters:
+
+  ## Parameters
+  attrs: - a map containing:
+  - `shortCode` - premium short code mapped to your account
+  - `keyword` - premium keyword under the above short code mapped to your account
+  - `phoneNumber` - phone number to be unsubscribed
+
+  ## Example
+      iex> AtEx.Gateway.Sms.delete_subscription(%{
+      ...>   shortCode: "1234",
+      ...>   keyword: "keyword",
+      ...>   phoneNumber: "+2541231111"
+      ...> })
+      {:ok,  %{"description" => "Succeeded", "status" => "Success"}}
+  """
+  @spec delete_subscription(map()) :: {:error, any()} | {:ok, any()}
+  def delete_subscription(attrs) do
+    username = Application.get_env(:at_ex, :username)
+
+    params =
+      attrs
+      |> Map.put(:username, username)
+
+    with {:ok, %{status: 201} = res} <- post("/subscription/delete", params) do
+      {:ok, Jason.decode!(res.body)}
+    else
+      {:ok, val} ->
+        {:error, %{status: val.status, message: val.body}}
+
+      {:error, message} ->
+        {:error, message}
+    end
+  end
 end
