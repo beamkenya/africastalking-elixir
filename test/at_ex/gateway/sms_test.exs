@@ -18,7 +18,7 @@ defmodule AtEx.Gateway.SmsTest do
   @checkout_token_query URI.encode_query(%{phoneNumber: @checkout_token_phonenumber})
   @checkout_token "CkTkn_SampleCkTknId123"
 
-  @create_subscription_url "https://api.sandbox.africastalking.com/version1/subscription/create"
+  @subscription_url "https://api.sandbox.africastalking.com/version1/subscription"
 
   setup do
     Tesla.Mock.mock(fn
@@ -190,7 +190,7 @@ defmodule AtEx.Gateway.SmsTest do
               })
           }
 
-        %{method: :post, url: @create_subscription_url} ->
+        %{method: :post, url: @subscription_url <> "/create"} ->
           %Tesla.Env{
             status: 201,
             body:
@@ -207,6 +207,7 @@ defmodule AtEx.Gateway.SmsTest do
                  shortCode: "12345",
                  keyword: "music"
                })
+
       assert response["status"] == "Success"
     end
 
@@ -222,7 +223,7 @@ defmodule AtEx.Gateway.SmsTest do
               })
           }
 
-        %{method: :post, url: @create_subscription_url} ->
+        %{method: :post, url: @subscription_url <> "/create"} ->
           %Tesla.Env{
             status: 201,
             body:
@@ -239,7 +240,52 @@ defmodule AtEx.Gateway.SmsTest do
                  shortCode: "99999",
                  keyword: "music"
                })
+
       assert response["status"] == "Failed"
+    end
+
+    test "list subscriptions success" do
+      Tesla.Mock.mock(fn
+        %{method: :get, url: @subscription_url} ->
+          %Tesla.Env{
+            status: 200,
+            body:
+              Jason.encode!(%{
+                "responses" => [
+                  %{
+                    "date" => "2019-10-05T18:57:08.000",
+                    "id" => 2_007_800,
+                    "phoneNumber" => "+254711123123"
+                  }
+                ]
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.fetch_subscriptions(%{
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+
+      assert Enum.count(response["responses"]) == 1
+    end
+
+    test "list subscriptions failure" do
+      Tesla.Mock.mock(fn
+        %{method: :get, url: @subscription_url} ->
+          %Tesla.Env{
+            status: 404,
+            body: "Request is missing required query parameter 'shortCode'"
+          }
+      end)
+
+      assert {:error, response} =
+               Sms.fetch_subscriptions(%{
+                 keyword: "music"
+               })
+
+      assert response.message == "Request is missing required query parameter 'shortCode'"
     end
   end
 end
