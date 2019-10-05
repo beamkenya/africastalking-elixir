@@ -168,4 +168,41 @@ defmodule AtEx.Gateway.Sms do
         {:error, reason}
     end
   end
+
+  @doc """
+  This function makes a GET request to fetch premium sms subscriptions via the Africa's talking subscription endpoint, this
+  function accepts an map of parameters.
+  sent
+
+  ## Parameters
+  attrs: - a map containing:
+  - `shortCode` - premium short code mapped to your account
+  - `keyword` - premium keyword under the above short code mapped to your account
+  - `lastReceivedId` - (optional) ID of the subscription you believe to be your last. Set it to 0 to for the first time.
+
+  ## Example
+      iex> AtEx.Gateway.Sms.create_subscription(%{
+      ...>   shortCode: "1234",
+      ...>   keyword: "keyword",
+      ...> })
+      {:ok, result}
+  """
+  @spec fetch_subscriptions(map()) :: {:error, any()} | {:ok, any()}
+  def fetch_subscriptions(attrs) do
+    username = Application.get_env(:at_ex, :username)
+
+    params =
+      attrs
+      |> Map.put(:username, username)
+
+    with {:ok, %{status: 200} = res} <- get("/subscription", query: params) do
+      {:ok, Jason.decode!(res.body)}
+    else
+      {:ok, val} ->
+        {:error, %{status: val.status, message: val.body}}
+
+      {:error, message} ->
+        {:error, message}
+    end
+  end
 end
