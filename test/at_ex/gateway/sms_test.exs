@@ -18,6 +18,8 @@ defmodule AtEx.Gateway.SmsTest do
   @checkout_token_query URI.encode_query(%{phoneNumber: @checkout_token_phonenumber})
   @checkout_token "CkTkn_SampleCkTknId123"
 
+  @subscription_url "https://api.sandbox.africastalking.com/version1/subscription"
+
   setup do
     Tesla.Mock.mock(fn
       %{method: :post, body: @attr} ->
@@ -174,6 +176,163 @@ defmodule AtEx.Gateway.SmsTest do
       assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Potential Error Message"
+    end
+
+    test "create subscription success" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Success",
+                "token" => @checkout_token
+              })
+          }
+
+        %{method: :post, url: @subscription_url <> "/create"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Waiting for user input",
+                "status" => "Success"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.create_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+
+      assert response["status"] == "Success"
+    end
+
+    test "create subscription failure - invalid shortCode" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @checkout_token_url, body: @checkout_token_query} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Success",
+                "token" => @checkout_token
+              })
+          }
+
+        %{method: :post, url: @subscription_url <> "/create"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                "description" => "Please ensure 99999 is configured under your API account",
+                "status" => "Failed"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.create_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "99999",
+                 keyword: "music"
+               })
+
+      assert response["status"] == "Failed"
+    end
+
+    test "list subscriptions success" do
+      Tesla.Mock.mock(fn
+        %{method: :get, url: @subscription_url} ->
+          %Tesla.Env{
+            status: 200,
+            body:
+              Jason.encode!(%{
+                "responses" => [
+                  %{
+                    "date" => "2019-10-05T18:57:08.000",
+                    "id" => 2_007_800,
+                    "phoneNumber" => "+254711123123"
+                  }
+                ]
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.fetch_subscriptions(%{
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+
+      assert Enum.count(response["responses"]) == 1
+    end
+
+    test "list subscriptions failure" do
+      Tesla.Mock.mock(fn
+        %{method: :get, url: @subscription_url} ->
+          %Tesla.Env{
+            status: 404,
+            body: "Request is missing required query parameter 'shortCode'"
+          }
+      end)
+
+      assert {:error, response} =
+               Sms.fetch_subscriptions(%{
+                 keyword: "music"
+               })
+
+      assert response.message == "Request is missing required query parameter 'shortCode'"
+    end
+
+    test "delete subscription success" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @subscription_url <> "/delete"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                status: "Success",
+                description: "Succeeded"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.delete_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "12345",
+                 keyword: "music"
+               })
+
+      assert response["description"] == "Succeeded"
+      assert response["status"] == "Success"
+    end
+
+    test "delete subscription failure" do
+      Tesla.Mock.mock(fn
+        %{method: :post, url: @subscription_url <> "/delete"} ->
+          %Tesla.Env{
+            status: 201,
+            body:
+              Jason.encode!(%{
+                description: "Please ensure 99900 is configured under your API account",
+                status: "Failed"
+              })
+          }
+      end)
+
+      assert {:ok, response} =
+               Sms.delete_subscription(%{
+                 phoneNumber: @checkout_token_phonenumber,
+                 shortCode: "99900",
+                 keyword: "music"
+               })
+
+      assert response["status"] == "Failed"
     end
   end
 end
