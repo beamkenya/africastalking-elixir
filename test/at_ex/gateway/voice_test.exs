@@ -8,8 +8,6 @@ defmodule AtEx.Gateway.VoiceTest do
 
   setup do
     Tesla.Mock.mock(fn
-
-
       %{method: :post} ->
         %Tesla.Env{
           status: 200,
