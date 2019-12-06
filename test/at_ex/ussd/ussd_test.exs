@@ -9,7 +9,7 @@ defmodule AtEx.USSDTest do
   @responses ["What would you want to check", "My Account", "My Phone number"]
   describe "USSD context" do
     test "responds with a con status if list is longer than one" do
-      valid_resp = "CON What would you want to check \n 1. My Account \n 2. My Phone number"
+      valid_resp = "CON What would you want to check\n1. My Account\n2. My Phone number"
 
       assert {:ok, valid_resp} == USSD.build_response(@responses)
     end
