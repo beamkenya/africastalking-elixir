@@ -65,5 +65,11 @@ defmodule AtEx.Gateway.AirtimeTest do
         Airtime.send_airtime(send_details)
       end
     end
+
+    test "send_airtime/1 raise if the arguments doesn,t have the key recipient" do
+      assert_raise ArgumentError, fn ->
+        Airtime.send_airtime(%{})
+      end
+    end
   end
 end

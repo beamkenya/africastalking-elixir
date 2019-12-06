@@ -16,19 +16,17 @@ defmodule AtEx.Gateway.Airtime do
   * `map`: map containing a recipients which is a list of maps each with a phone number and amount
 
   ## Examples
-      AtEx.Airtime.send_airtime(%{recipients: [%{phone_number: +254721978097, amount: "KES 50"}]})
+      AtEx.Gateway.Airtime.send_airtime(%{recipients: [%{phone_number: "+254721978097", amount: "KES 50"}]})
   """
   @spec send_airtime(send_input()) :: call_return()
   def send_airtime(%{recipients: people} = attrs) do
-    username = Application.get_env(:at_ex, :username)
-
     serialized_people =
       people
       |> Enum.map(fn person -> serialize_person(person) end)
 
     params =
       attrs
-      |> Map.put(:username, username)
+      |> Map.put(:username, Application.get_env(:at_ex, :username))
       |> Map.put(:recipients, Jason.encode!(serialized_people))
 
     with {:ok, %{status: 201} = res} <- post("/send", params) do
@@ -40,6 +38,10 @@ defmodule AtEx.Gateway.Airtime do
       {:error, message} ->
         {:error, message}
     end
+  end
+
+  def send_airtime(_attrs) do
+    raise(ArgumentError, message: "Request is missing the recipient key")
   end
 
   @doc false
