@@ -29,7 +29,7 @@ defmodule AtEx.Gateway.Voice do
      link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
 
   ## Examples
-      iex> AtEx.Gateway.Voice.make_a_call(%{from: "+254728833181", to: "+254728833000, +254728000000"})
+      iex> AtEx.Gateway.Voice.make_a_call(%{from: "+254728833181", to: "+254728833000"})
   """
 
   @spec make_a_call(map()) :: {:ok, term()} | {:error, term()}
@@ -51,15 +51,44 @@ defmodule AtEx.Gateway.Voice do
       attrs
       |> Map.put(:username, username)
 
-    with {:ok, %Tesla.Env{status: 200} = res} <-
-           Tesla.post(Tesla.client(call_middleware), "/call", params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
+    with {:ok, %Tesla.Env{body: body, status: 200}} <-
+           Tesla.post(Tesla.client(call_middleware), "/call", params),
+         {:ok, body} <- Jason.decode(body) do
+      case body do
+        # Only success case
+        %{
+          "entries" => [
+            %{
+              "phoneNumber" => _calling_from,
+              "sessionId" => _session_id,
+              "status" => "Queued"
+            }
+          ],
+          "errorMessage" => "None"
+        } ->
+          {:ok, body}
 
-      {:error, message} ->
-        {:error, message}
+        %{
+          "entries" => [
+            %{
+              "phoneNumber" => _calling_from,
+              "sessionId" => "None",
+              "status" => message
+            }
+          ],
+          "errorMessage" => "None"
+        } ->
+          {:error, "Failure - #{message}"}
+
+        _ ->
+          {:error, "Failure - Unknown Error"}
+      end
+    else
+      {:ok, %Tesla.Env{status: status, body: body}} ->
+        {:error, "#{status} - #{body}"}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end
