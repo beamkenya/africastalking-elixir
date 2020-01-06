@@ -5,23 +5,26 @@ defmodule AtEx.USSDTest do
   """
   use ExUnit.Case
   alias AtEx.USSD
+  doctest AtEx.USSD
 
-  @responses ["What would you want to check", "My Account", "My Phone number"]
-  describe "USSD context" do
-    test "responds with a con status if list is longer than one" do
-      valid_resp = "CON What would you want to check\n1. My Account\n2. My Phone number"
-
-      assert {:ok, valid_resp} == USSD.build_response(@responses)
+  describe "build_response/2" do
+    test "return tuple of :ok and message with content End to end the session" do
+      {:ok, return_message} = USSD.build_response("good morning", :end)
+      assert return_message == "END good morning"
     end
 
-    test "responds with an end string if the input list is of size 1" do
-      resp = ["my resp"]
-
-      valid_resp = "END my resp"
-
-      assert {:ok, valid_resp} == USSD.build_response(resp)
+    test "given message and atom :cont, continues the session" do
+      {:ok, return_message} = USSD.build_response("good morning", :cont)
+      assert return_message == "CON good morning"
     end
 
+    test "given the message, it continues with the session" do
+      {:ok, return_message} = USSD.build_response("good morning")
+      assert return_message == "CON good morning"
+    end
+  end
+
+  describe "build_response/1" do
     test "errors out if the list is empty" do
       assert {:error, _} = USSD.build_response([])
     end
