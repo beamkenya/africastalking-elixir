@@ -11,13 +11,14 @@ defmodule AtEx.USSD do
 
   To generate the response, you can use the function `AtEx.USSD.build_response/1` or `AtEx.USSD.build_response/2`.
 
-  If you want to end a USSD session you call the `AtEx.USSD.build_response/1` giving it a string. This will
+  ## End session 
+  If you want to end a USSD session you call the `AtEx.USSD.build_response/1` giving it a string and the :end. This will
   generate a string that indicates to Africastalking to end the current session while showing the provided
   string as the message to the user.
 
-  ## Example
-      iex> AtEx.USSD.build_response("Thank you for your business")
-      {:ok, "END Thank you for your business"}
+  ## Continue session when content is a string
+  Incase you would like to cont with a USSD session, call the `AtEx.USSD.build_response/1`, 
+  giving it a string only since it already takes in the :cont as its second parameter by default.
 
   To display a response that awaits user input you can give the function a title and a body. The title is
   considered as description or instruction of the body. The body in most cases is a list of options a user will
@@ -47,7 +48,11 @@ defmodule AtEx.USSD do
   Gives us back a session end or a list of elements to be displayed to the user.
   It expects a string, a list of strings or a list of tuples as its input. Empty list will return
   an error
+
+
+
   """
+
   @spec build_response(list(String.t())) :: {:ok, String.t()} | {:error, term()}
   def build_response([]), do: {:error, "Responses can't be empty"}
 
