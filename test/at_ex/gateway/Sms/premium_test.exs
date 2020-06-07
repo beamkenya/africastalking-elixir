@@ -4,11 +4,11 @@ defmodule AtEx.Gateway.SmsTest do
   """
   use ExUnit.Case
 
-  alias AtEx.Gateway.Sms
+  alias AtEx.Gateway.Sms.PremiumSubscriptions
 
   @attr "username="
 
-  # Endpoint for getting the checkout token 
+  # Endpoint for getting the checkout token
   # Unless overridden, we will always use the sandbox URL during test
   # If overridden, all the checkout token tests will fail.
   @checkout_token_url "https://api.sandbox.africastalking.com/checkout/token/create"
@@ -72,43 +72,13 @@ defmodule AtEx.Gateway.SmsTest do
     :ok
   end
 
-  describe "Sms Gateway" do
-    test "sends_sms/1 should send sms with required parameters" do
-      # make message details
-      send_details = %{to: "+254728833181", message: "new music"}
+  describe "Sms Gateway/Premium" do
 
-      # run details through our code
-      {:ok, result} = Sms.send_sms(send_details)
 
-      # assert our code gives us a single element list of messages
-      [msg] = result["SMSMessageData"]["Recipients"]
 
-      # assert that message details correspond to details of set up message
-      assert msg["number"] == send_details.to
-    end
 
-    test "sends_sms/1 should error out without phone number parameter" do
-      # run details through our code
-      {:error, result} = Sms.send_sms(%{})
 
-      "Request is missing required form field 'to'" = result.message
-
-      400 = result.status
-    end
-
-    test "fetches sms collects data with correct params" do
-      send_details = %{username: "sandbox"}
-
-      # run details through our code
-      {:ok, result} = Sms.fetch_sms(send_details)
-      # assert our code gives us a single element list of messages
-      [msg] = result["SMSMessageData"]["Messages"]
-
-      # assert that message details correspond to details of set up message
-      assert msg["text"] == "Hello"
-    end
-
-    # Checkout token tests need their own mock calls, or we would need 
+    # Checkout token tests need their own mock calls, or we would need
     # separate phone numbers for each test.  This way values can be
     # reused.
 
@@ -125,7 +95,7 @@ defmodule AtEx.Gateway.SmsTest do
           }
       end)
 
-      assert {:ok, token} = Sms.generate_checkout_token(@checkout_token_phonenumber)
+      assert {:ok, token} = PremiumSubscriptions.generate_checkout_token(@checkout_token_phonenumber)
       assert token == @checkout_token
     end
 
@@ -142,7 +112,7 @@ defmodule AtEx.Gateway.SmsTest do
           }
       end)
 
-      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
+      assert {:error, message} = PremiumSubscriptions.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Error Message"
     end
@@ -156,7 +126,7 @@ defmodule AtEx.Gateway.SmsTest do
           }
       end)
 
-      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
+      assert {:error, message} = PremiumSubscriptions.generate_checkout_token(@checkout_token_phonenumber)
       assert message = "500 - Error Message"
     end
 
@@ -173,7 +143,7 @@ defmodule AtEx.Gateway.SmsTest do
           }
       end)
 
-      assert {:error, message} = Sms.generate_checkout_token(@checkout_token_phonenumber)
+      assert {:error, message} = PremiumSubscriptions.generate_checkout_token(@checkout_token_phonenumber)
 
       assert message == "Failure - Potential Error Message"
     end
@@ -202,7 +172,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:ok, response} =
-               Sms.create_subscription(%{
+               PremiumSubscriptions.create_subscription(%{
                  phoneNumber: @checkout_token_phonenumber,
                  shortCode: "12345",
                  keyword: "music"
@@ -235,7 +205,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:ok, response} =
-               Sms.create_subscription(%{
+               PremiumSubscriptions.create_subscription(%{
                  phoneNumber: @checkout_token_phonenumber,
                  shortCode: "99999",
                  keyword: "music"
@@ -255,7 +225,9 @@ defmodule AtEx.Gateway.SmsTest do
                   %{
                     "date" => "2019-10-05T18:57:08.000",
                     "id" => 2_007_800,
-                    "phoneNumber" => "+254711123123"
+                    "phoneNumber" => "+254711123123",
+                    "shortCode" => "12345",
+                    "keyword" => "music"
                   }
                 ]
               })
@@ -263,10 +235,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:ok, response} =
-               Sms.fetch_subscriptions(%{
-                 shortCode: "12345",
-                 keyword: "music"
-               })
+               PremiumSubscriptions.fetch_subscriptions()
 
       assert Enum.count(response["responses"]) == 1
     end
@@ -281,9 +250,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:error, response} =
-               Sms.fetch_subscriptions(%{
-                 keyword: "music"
-               })
+               PremiumSubscriptions.fetch_subscriptions()
 
       assert response.message == "Request is missing required query parameter 'shortCode'"
     end
@@ -302,7 +269,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:ok, response} =
-               Sms.delete_subscription(%{
+               PremiumSubscriptions.delete_subscription(%{
                  phoneNumber: @checkout_token_phonenumber,
                  shortCode: "12345",
                  keyword: "music"
@@ -326,7 +293,7 @@ defmodule AtEx.Gateway.SmsTest do
       end)
 
       assert {:ok, response} =
-               Sms.delete_subscription(%{
+               PremiumSubscriptions.delete_subscription(%{
                  phoneNumber: @checkout_token_phonenumber,
                  shortCode: "99900",
                  keyword: "music"

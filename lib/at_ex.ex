@@ -97,7 +97,7 @@ defmodule AtEx do
         }
       }}
   """
-  defdelegate send_sms(map), to: Sms
+  defdelegate send_sms(map), to: Sms.Bulk
 
   @doc """
 

@@ -56,6 +56,7 @@ defmodule AtEx.Gateway.Base do
             {:error, val}
         end
       end
+      
     end
   end
 end
