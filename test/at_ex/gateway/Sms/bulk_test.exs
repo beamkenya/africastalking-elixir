@@ -8,8 +8,6 @@ defmodule AtEx.Gateway.Sms.BulkTest do
 
   @attr "username="
 
-
-
   setup do
     Tesla.Mock.mock(fn
       %{method: :post, body: @attr} ->

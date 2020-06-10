@@ -32,8 +32,4 @@ defmodule AtEx.Gateway.Sms do
         {:error, message}
     end
   end
-
-  
-
-
 end

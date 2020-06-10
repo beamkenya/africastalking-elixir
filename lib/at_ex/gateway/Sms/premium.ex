@@ -1,6 +1,6 @@
 defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
-    # Checkout token endpoints
+  # Checkout token endpoints
   @live_token_url "https://api.africastalking.com/checkout/token"
   @sandbox_token_url "https://api.sandbox.africastalking.com/checkout/token"
 
@@ -62,8 +62,6 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
     end
   end
 
-
-
   @doc """
   This function makes a post request to subscribe to premium sms content via the Africa's talking subscription endpoint, this
   function accepts an map of parameters.
@@ -76,7 +74,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `phoneNumber` - phone number to be subscribed
 
   ## Example
-      iex> AtEx.Gateway.Sms.create_subscription(%{phoneNumber: "+2541231111"})
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+2541231111"})
       {:ok, result}
   """
   @spec create_subscription(map()) :: {:error, any()} | {:ok, any()}
@@ -93,9 +91,6 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
           |> Map.put(:shortCode, shortcode)
           |> Map.put(:keyword, keyword)
           |> Map.put(:checkoutToken, token)
-
-          IO.inspect(params)
-
 
         with {:ok, %{status: 201} = res} <- post("/subscription/create", params) do
           {:ok, Jason.decode!(res.body)}
@@ -124,11 +119,11 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `lastReceivedId` - (optional) ID of the subscription you believe to be your last. Set it to 0 to for the first time.
 
   ## Example
-      iex> AtEx.Gateway.Sms.create_subscription(%{
-      ...>   shortCode: "1234",
-      ...>   keyword: "keyword",
-      ...> })
-      {:ok, result}
+  iex> AtEx.Gateway.Sms.create_subscription(%{
+    ...>   shortCode: "1234",
+    ...>   keyword: "keyword",
+    ...> })
+    {:ok, result}
   """
   @spec fetch_subscriptions() :: {:error, any()} | {:ok, any()}
   def fetch_subscriptions() do
@@ -141,7 +136,6 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
       |> Map.put(:username, username)
       |> Map.put(:shortCode, shortcode)
       |> Map.put(:keyword, keyword)
-
 
     with {:ok, %{status: 200} = res} <- get("/subscription", query: params) do
       {:ok, Jason.decode!(res.body)}
@@ -180,7 +174,6 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
       |> Map.put(:shortCode, shortcode)
       |> Map.put(:keyword, keyword)
 
-
     with {:ok, %{status: 201} = res} <- post("/subscription/delete", params) do
       {:ok, Jason.decode!(res.body)}
     else
@@ -191,6 +184,4 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
         {:error, message}
     end
   end
-
 end
-
