@@ -1,4 +1,4 @@
-defmodule AtEx.Gateway.Sms do
+defmodule AtEx.Gateway.Sms.Bulk do
   @moduledoc """
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
@@ -23,6 +23,35 @@ defmodule AtEx.Gateway.Sms do
       |> Map.put(:username, username)
 
     with {:ok, %{status: 201} = res} <- post("/messaging", params) do
+      {:ok, Jason.decode!(res.body)}
+    else
+      {:ok, val} ->
+        {:error, %{status: val.status, message: val.body}}
+
+      {:error, message} ->
+        {:error, message}
+    end
+  end
+
+  @doc """
+  This function makes a get request to fetch an SMS via the Africa's talking SMS endpoint, this
+  function accepts an map of parameters that optionally accepts `lastReceivedId` of the message.
+  sent
+
+  ## Parameters
+  attrs: - an empty map or a map containing optionally `lastReceivedId` of the message to be fetched, see the docs at https://build.at-labs.io/docs/sms%2Ffetch_messages for how to use these keys
+  """
+
+  @spec fetch_sms(map()) :: {:error, any()} | {:ok, any()}
+  def fetch_sms(attrs) do
+    username = Application.get_env(:at_ex, :username)
+
+    params =
+      attrs
+      |> Map.put(:username, username)
+      |> Map.to_list()
+
+    with {:ok, %{status: 200} = res} <- get("/messaging", query: params) do
       {:ok, Jason.decode!(res.body)}
     else
       {:ok, val} ->
