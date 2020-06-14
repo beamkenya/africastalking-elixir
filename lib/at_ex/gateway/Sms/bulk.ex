@@ -23,7 +23,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
       |> Map.put(:username, username)
 
     with {:ok, %{status: 201} = res} <- post("/messaging", params) do
-      {:ok, Jason.decode!(res.body)}
+      process_result(res.body)
     else
       {:ok, val} ->
         {:error, %{status: val.status, message: val.body}}
@@ -35,7 +35,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
 
   @doc """
   This function makes a get request to fetch an SMS via the Africa's talking SMS endpoint, this
-  function accepts an map of parameters that optionally accepts `lastReceivedId` of the message.
+  function accepts a map of parameters that optionally accepts `lastReceivedId` of the message.
   sent
 
   ## Parameters
