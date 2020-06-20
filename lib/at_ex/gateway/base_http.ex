@@ -49,9 +49,13 @@ defmodule AtEx.Gateway.Base do
       Process results from calling the gateway
       """
       def process_result(result) do
-        with {:ok, res} <- Jason.decode(result) do
-          {:ok, res}
-        else
+        case result do
+          {:ok, %{status: 201} = res} ->
+            Jason.decode(res.body)
+
+          {:ok, val} ->
+            {:error, %{status: val.status, message: val.body}}
+
           {:error, val} ->
             {:error, val}
         end

@@ -22,15 +22,9 @@ defmodule AtEx.Gateway.Sms.Bulk do
       attrs
       |> Map.put(:username, username)
 
-    with {:ok, %{status: 201} = res} <- post("/messaging", params) do
-      process_result(res.body)
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/messaging"
+    |> post(params)
+    |> process_result()
   end
 
   @doc """
