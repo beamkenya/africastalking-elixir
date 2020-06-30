@@ -50,7 +50,7 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
         |> process_result()
 
       {:error, message} ->
-        message
+        {:error, message}
     end
   end
 
