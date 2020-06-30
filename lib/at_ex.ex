@@ -24,36 +24,37 @@ defmodule AtEx do
   alias AtEx.Gateway.{
     Airtime,
     Application,
-    Sms
+    Sms,
+    Voice
   }
 
   @doc """
-  Sends airtime
+    Sends airtime
 
-  ## Parameters
+    ## Parameters
 
-    - map: a map that represents the details of the party you are sending airtime to
+      - map: a map that represents the details of the party you are sending airtime to
 
-  ## Examples
+    ## Examples
 
-  iex> AtEx.send_airtime(%{recipients: [%{phone_number: "+254721978097", amount: "KES 50"}]})
-    {:ok,
-      %{
-        "errorMessage" => "None",
-        "numSent" => 1,
-        "responses" => [
+      iex> AtEx.send_airtime(%{recipients: [%{phone_number: "+254721978097", amount: "KES 50"}]})
+        {:ok,
           %{
-            "amount" => "KES 50.0000",
-            "discount" => "KES 2.0000",
             "errorMessage" => "None",
-            "phoneNumber" => "+254721978097",
-            "requestId" => "ATQid_630557e624c70f2b0d2c5e90ebc282bb",
-            "status" => "Sent"
-          }
-        ],
-          "totalAmount" => "ZAR 7.0277",
-          "totalDiscount" => "ZAR 0.2811"
-      }}
+            "numSent" => 1,
+            "responses" => [
+              %{
+                "amount" => "KES 50.0000",
+                "discount" => "KES 2.0000",
+                "errorMessage" => "None",
+                "phoneNumber" => "+254721978097",
+                "requestId" => "ATQid_630557e624c70f2b0d2c5e90ebc282bb",
+                "status" => "Sent"
+              }
+            ],
+            "totalAmount" => "ZAR 7.0277",
+            "totalDiscount" => "ZAR 0.2811"
+        }}
   """
   defdelegate send_airtime(map), to: Airtime
 
@@ -76,8 +77,8 @@ defmodule AtEx do
   sent
 
   ## Parameters
-  - map: a map containing a `to` and `message` key optionally it may also contain `from`, bulk_sms, enqueue, key_word
-    link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
+    - map: a map containing a `to` and `message` key optionally it may also contain `from`, bulk_sms, enqueue, key_word
+      link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
 
   ## Examples
   iex> AtEx.send_sms(%{to: "+254721978097", message: "Howdy"})
@@ -121,4 +122,24 @@ defmodule AtEx do
   """
 
   defdelegate fetch_sms(map), to: Sms.Bulk
+
+  @doc """
+  This function makes a POST request to make a call  via the Africa's talking call endpoint, through delegation
+  this function accepts a map of parameters.
+  sent
+
+  ## Parameters
+  attrs: - a map containing:
+  - `from` - your Africa’s Talking phone number (in international format i.e. +XXXYYYYYY)
+  - `to` - A comma separated string of recipients’ phone numbers.
+  - `clientRequestId` - (optional) Variable sent to your Events Callback URL that can be used to tag the call
+
+  ## Example
+      iex> AtEx.call(%{
+      ...>   to: "+254728907896",
+      ...>   from: "+254728900922",
+      ...> })
+      {:ok, result}
+  """
+  defdelegate call(map), to: Voice.MakeCall
 end

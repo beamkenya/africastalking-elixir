@@ -40,9 +40,9 @@ defmodule AtEx.Gateway.Base do
       plug(Tesla.Middleware.FormUrlencoded)
 
       plug(Tesla.Middleware.Headers, [
-        {"accept", @accept},
-        {"content-type", @content_type},
-        {"apikey", @key}
+        {"Accept", @accept},
+        {"Content-Type", @content_type},
+        {"apiKey", @key}
       ])
 
       @doc """
