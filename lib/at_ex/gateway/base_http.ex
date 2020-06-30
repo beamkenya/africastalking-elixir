@@ -38,7 +38,9 @@ defmodule AtEx.Gateway.Base do
 
       plug(Tesla.Middleware.BaseUrl, @config[:url])
 
-      if @config[:type] do
+      # The `type` config is to allow the api send `application/json` check https://github.com/teamon/tesla#formats for more info. Needed in requests such as Mobile/checkput
+
+      if @config[:type] && @config['type'] === "json" do
         plug(Tesla.Middleware.JSON)
       else
         plug(Tesla.Middleware.FormUrlencoded)

@@ -12,6 +12,8 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
       "https://payments.sandbox.africastalking.com/mobile"
     end
 
+  # The `type` config is to allow the api send `application/json` check https://github.com/teamon/tesla#formats for more info
+
   use AtEx.Gateway.Base, url: url, type: "json"
 
   @doc """
@@ -32,7 +34,7 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
 
     "/checkout/request"
     |> post(params)
-    |> IO.inspect
+    |> IO.inspect()
     |> process_result()
   end
 end
