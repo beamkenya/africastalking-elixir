@@ -24,7 +24,7 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
 
   ## Example 
     ```
-    iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540039", amount: 10, currencyCode: "KES"})
+    iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
     %{
     "description" => "Waiting for user input",
     "providerChannel" => "525900",

@@ -8,5 +8,5 @@ config :at_ex,
   accept: "application/json",
   auth_token: "",
   username: "sandbox",
-  endpoint: "sandbox"
+  endpoint: "sandbox",
   product_name: "AtEx"
