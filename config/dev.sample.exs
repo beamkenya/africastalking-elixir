@@ -9,3 +9,4 @@ config :at_ex,
   auth_token: "",
   username: "sandbox",
   endpoint: "sandbox"
+  product_name: "AtEx"
