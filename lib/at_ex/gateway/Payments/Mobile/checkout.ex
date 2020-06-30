@@ -66,10 +66,10 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
         {:error, "The request is missing required member 'currencyCode'"}
 
       Map.has_key?(attrs, :providerChannel) && is_bitstring(attrs.providerChannel) === false ->
-        {:error, "The required member 'providerChannel' must be a string"}
+        {:error, "The optional member 'providerChannel' must be a string"}
 
       Map.has_key?(attrs, :metadata) && is_map(attrs.metadata) === false ->
-        {:error, "The required member 'metadata' must be a map"}
+        {:error, "The optional member 'metadata' must be a map"}
 
       true ->
         {:ok}
