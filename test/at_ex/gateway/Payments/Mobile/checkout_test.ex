@@ -78,6 +78,7 @@ defmodule AtEx.Gateway.Payments.Mobile.CheckoutTest do
       {:error, message} = Checkout.mobile_checkout(details)
       assert "The optional member 'metadata' must be a map" = message
     end
+
     test "mobile_checkout/1 should fail without optional param 'providerChannel' is not a string" do
       details = %{
         phoneNumber: "254724540000",
