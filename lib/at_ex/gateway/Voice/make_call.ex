@@ -28,14 +28,8 @@ defmodule AtEx.Gateway.Voice.MakeCall do
       attrs
       |> Map.put(:username, username)
 
-    with {:ok, %{status: 200} = res} <- post("/call", params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/call"
+    |> post(params)
+    |> process_result()
   end
 end
