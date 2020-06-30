@@ -34,7 +34,6 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
 
     "/checkout/request"
     |> post(params)
-    |> IO.inspect()
     |> process_result()
   end
 end
