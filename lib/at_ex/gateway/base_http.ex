@@ -37,7 +37,12 @@ defmodule AtEx.Gateway.Base do
       @content_type Application.get_env(:at_ex, :content_type)
 
       plug(Tesla.Middleware.BaseUrl, @config[:url])
-      plug(Tesla.Middleware.FormUrlencoded)
+
+      if @config[:type] do
+        plug(Tesla.Middleware.JSON)
+      else
+        plug(Tesla.Middleware.FormUrlencoded)
+      end
 
       plug(Tesla.Middleware.Headers, [
         {"accept", @accept},
