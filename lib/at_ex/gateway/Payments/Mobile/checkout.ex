@@ -23,7 +23,6 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
   attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
 
   ## Example 
-    ```
     iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
     %{
     "description" => "Waiting for user input",
@@ -31,7 +30,6 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
     "status" => "PendingConfirmation",
     "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
     }
-    ```
   """
   @spec mobile_checkout(map()) :: {:ok, term()} | {:error, term()}
   def mobile_checkout(attrs) do

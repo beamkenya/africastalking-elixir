@@ -24,7 +24,8 @@ defmodule AtEx do
   alias AtEx.Gateway.{
     Airtime,
     Application,
-    Sms
+    Sms,
+    Payments
   }
 
   @doc """
@@ -121,4 +122,21 @@ defmodule AtEx do
   """
 
   defdelegate fetch_sms(map), to: Sms.Bulk
+
+  @doc """
+  This function initiates a mobile checkout request by sending a HTTP POST request to the Africa's talking Mobile Checkout endpoint.
+
+  ## Parameters
+  attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
+
+  ## Example 
+    iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
+    %{
+    "description" => "Waiting for user input",
+    "providerChannel" => "525900",
+    "status" => "PendingConfirmation",
+    "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
+    }
+  """
+  defdelegate mobile_checkout(map), to: Payments.Mobile.Checkout
 end
