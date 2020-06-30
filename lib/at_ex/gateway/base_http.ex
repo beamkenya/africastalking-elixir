@@ -58,7 +58,7 @@ defmodule AtEx.Gateway.Base do
 
       def process_result({:ok, %{status: 200} = res}) do
         if is_map(res.body) do
-          res.body
+          {:ok, res.body}
         else
           Jason.decode(res.body)
         end
@@ -66,7 +66,7 @@ defmodule AtEx.Gateway.Base do
 
       def process_result({:ok, %{status: 201} = res}) do
         if is_map(res.body) do
-          res.body
+          {:ok, res.body}
         else
           Jason.decode(res.body)
         end
