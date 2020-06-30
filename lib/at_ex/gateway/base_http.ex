@@ -55,20 +55,21 @@ defmodule AtEx.Gateway.Base do
       @doc """
       Process results from calling the gateway
       """
-      def process_result({:ok, %{status: 200} = res}) when is_map(res) do
-        res.body
-      end
 
       def process_result({:ok, %{status: 200} = res}) do
-        Jason.decode(res.body)
-      end
-
-      def process_result({:ok, %{status: 201} = res}) when is_map(res) do
-        res.body
+        if is_map(res.body) do
+          res.body
+        else
+          Jason.decode(res.body)
+        end
       end
 
       def process_result({:ok, %{status: 201} = res}) do
-        Jason.decode(res.body)
+        if is_map(res.body) do
+          res.body
+        else
+          Jason.decode(res.body)
+        end
       end
 
       def process_result({:ok, result}) do
