@@ -43,17 +43,17 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
   }}
   """
   @spec b2c_checkout(list()) :: {:ok, term()} | {:error, term()}
-  def b2c_checkout(attrs) when is_list(attrs) do
+  def b2c_checkout(attrs) when is_list(attrs) and length(attrs) <= 10 do
     username = Application.get_env(:at_ex, :username)
     product_name = Application.get_env(:at_ex, :b2c_product_name)
 
-    params =
-      %{recipients: attrs}
-      |> Map.put(:username, username)
-      |> Map.put(:productName, product_name)
-
     case validate_attrs(attrs) do
       %{ok: _} ->
+        params =
+          %{recipients: attrs}
+          |> Map.put(:username, username)
+          |> Map.put(:productName, product_name)
+
         "/b2c/request"
         |> post(params)
         |> process_result()
@@ -62,6 +62,9 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
         {:error, message}
     end
   end
+
+  def b2c_checkout(attrs) when is_list(attrs) and length(attrs) > 10,
+    do: {:error, "Too many phone numbers in the request (maximum is 10)"}
 
   def b2c_checkout(list) when not is_list(list),
     do: {:error, "The requst body should be a list of a map of recipients"}
