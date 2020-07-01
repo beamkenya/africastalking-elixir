@@ -75,22 +75,22 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
         for param <- attrs, into: %{} do
           cond do
             Map.has_key?(param, :amount) === false ->
-              {:error, "The request is missing required member 'amount' in one of te recipients"}
+              {:error, "The request is missing required member 'amount' in one of the recipients"}
 
             Map.has_key?(param, :phoneNumber) === false ->
               {:error,
-               "The request is missing required member 'phoneNumber' in one of te recipients"}
+               "The request is missing required member 'phoneNumber' in one of the recipients"}
 
             Map.has_key?(param, :currencyCode) === false ->
               {:error,
-               "The request is missing required member 'currencyCode' in one of te recipients"}
+               "The request is missing required member 'currencyCode' in one of the recipients"}
 
             Map.has_key?(param, :providerChannel) && is_bitstring(param.providerChannel) === false ->
               {:error,
-               "The optional member 'providerChannel' must be a string in one of te recipients"}
+               "The optional member 'providerChannel' must be a string in one of the recipients"}
 
             Map.has_key?(param, :metadata) && is_map(param.metadata) === false ->
-              {:error, "The required member 'metadata' must be a map in one of te recipients"}
+              {:error, "The required member 'metadata' must be a map in one of the recipients"}
 
             true ->
               {:ok, "success"}

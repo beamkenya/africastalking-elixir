@@ -61,7 +61,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
 
       {:error, message} = B2c.b2c_checkout(details)
 
-      assert "The request is missing required member 'phoneNumber' in one of te recipients" =
+      assert "The request is missing required member 'phoneNumber' in one of the recipients" =
                message
     end
 
@@ -76,7 +76,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
       ]
 
       {:error, message} = B2c.b2c_checkout(details)
-      assert "The request is missing required member 'amount' in one of te recipients" = message
+      assert "The request is missing required member 'amount' in one of the recipients" = message
     end
 
     test "b2c_checkout/1 should fail without required params 'currencyCode' in the recipient list item map" do
@@ -90,7 +90,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
 
       {:error, message} = B2c.b2c_checkout(details)
 
-      assert "The request is missing required member 'currencyCode' in one of te recipients" =
+      assert "The request is missing required member 'currencyCode' in one of the recipients" =
                message
     end
 
@@ -105,7 +105,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
       ]
 
       {:error, message} = B2c.b2c_checkout(details)
-      assert "The required member 'metadata' must be a map in one of te recipients" = message
+      assert "The required member 'metadata' must be a map in one of the recipients" = message
     end
 
     test "b2c_checkout/1 should fail without all the recepient in list being maps" do
