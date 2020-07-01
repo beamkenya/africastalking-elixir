@@ -24,11 +24,13 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
 
   ## Example 
     iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
-    %{
-    "description" => "Waiting for user input",
-    "providerChannel" => "525900",
-    "status" => "PendingConfirmation",
-    "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
+    %{:ok,
+        %{
+        "description" => "Waiting for user input",
+        "providerChannel" => "525900",
+        "status" => "PendingConfirmation",
+        "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
+        }
     }
   """
   @spec mobile_checkout(map()) :: {:ok, term()} | {:error, term()}

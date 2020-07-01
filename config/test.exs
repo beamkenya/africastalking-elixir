@@ -7,5 +7,5 @@ config :at_ex,
   content_type: "application/json",
   accept: "application/json",
   auth_token: "",
-  stk_product_name: "AtEx"
+  stk_product_name: "AtEx",
   b2c_product_name: "AtEx"
