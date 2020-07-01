@@ -9,4 +9,5 @@ config :at_ex,
   auth_token: "",
   username: "sandbox",
   endpoint: "sandbox",
-  product_name: "AtEx"
+  stk_product_name: "AtEx"
+  b2c_product_name: "AtEx"

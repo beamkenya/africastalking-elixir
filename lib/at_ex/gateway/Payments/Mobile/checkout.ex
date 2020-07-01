@@ -34,7 +34,7 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
   @spec mobile_checkout(map()) :: {:ok, term()} | {:error, term()}
   def mobile_checkout(attrs) do
     username = Application.get_env(:at_ex, :username)
-    product_name = Application.get_env(:at_ex, :product_name)
+    product_name = Application.get_env(:at_ex, :stk_product_name)
 
     params =
       attrs
