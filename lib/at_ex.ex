@@ -130,7 +130,7 @@ defmodule AtEx do
   attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
+    iex>AtEx.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
     %{
     "description" => "Waiting for user input",
     "providerChannel" => "525900",
@@ -139,4 +139,32 @@ defmodule AtEx do
     }
   """
   defdelegate mobile_checkout(map), to: Payments.Mobile.Checkout
+
+  @doc """
+  This function initiates a mobile B2C request by making a HTTP POST request to the Africa's talking Mobile B2C endpoint.
+
+  ## Parameters
+  attrs: - a list of Recipient each a map containing a `phoneNumber`, `currencyCode`, `amount` and a map of `metadata` key optionally it may also contain `name`, `reason` and `providerChannel` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2c%2Foverview for how to use these keys
+
+  ## Example 
+    iex>AtEx.b2c_checkout([%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES", metadata: %{ message: "I am here"}}])
+    {:ok,
+  %{
+   "entries" => [
+     %{
+       "phoneNumber" => "+254724540000",
+       "provider" => "Athena",
+       "providerChannel" => "525900",
+       "status" => "Queued",
+       "transactionFee" => "KES 0.1000",
+       "transactionId" => "ATPid_2b76da39eebd5c6bcc49e5d30c3d0390",
+       "value" => "KES 10.0000"
+     }
+   ],
+   "numQueued" => 1,
+   "totalTransactionFee" => "KES 0.1000",
+   "totalValue" => "KES 10.0000"
+  }}
+  """
+  defdelegate b2c_checkout(map), to: Payments.Mobile.B2c
 end
