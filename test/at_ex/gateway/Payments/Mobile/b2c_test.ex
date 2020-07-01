@@ -107,5 +107,32 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
       {:error, message} = B2c.b2c_checkout(details)
       assert "The required member 'metadata' must be a map in one of te recipients" = message
     end
+
+    test "b2c_checkout/1 should fail without all the recepient in list being maps" do
+      details = [
+        %{
+          phoneNumber: "254724540000",
+          amount: 10,
+          currencyCode: "KES",
+          metadata: "a string"
+        },
+        [test: "this is a wrong body"]
+      ]
+
+      {:error, message} = B2c.b2c_checkout(details)
+      assert "The requst body should be a list of map" = message
+    end
+
+    test "b2c_checkout/1 should fail without request body being a list" do
+      details = %{
+        phoneNumber: "254724540000",
+        amount: 10,
+        currencyCode: "KES",
+        metadata: "a string"
+      }
+
+      {:error, message} = B2c.b2c_checkout(details)
+      assert "The requst body should be a list of a map of recipients" = message
+    end
   end
 end

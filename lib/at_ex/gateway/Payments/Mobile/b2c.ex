@@ -98,7 +98,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
         end
 
       false ->
-        {:error, "The requst body should be a list of map"}
+        %{error: "The requst body should be a list of map"}
     end
   end
 end
