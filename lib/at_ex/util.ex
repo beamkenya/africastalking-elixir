@@ -1,6 +1,5 @@
 defmodule AtEx.Util do
-
-  @spec get_url(String.t, String.t) :: String.t
+  @spec get_url(String.t(), String.t()) :: String.t()
   def get_url(live_url, sandbox_url) do
     cond do
       Mix.env() == :prod -> live_url
@@ -8,5 +7,4 @@ defmodule AtEx.Util do
       true -> sandbox_url
     end
   end
-
 end
