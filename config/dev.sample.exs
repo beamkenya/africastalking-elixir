@@ -9,3 +9,5 @@ config :at_ex,
   auth_token: "",
   username: "sandbox",
   endpoint: "sandbox"
+  # When changed to "YES" one will use the live endpoint url
+  force_live_url: "NO"
