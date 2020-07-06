@@ -22,7 +22,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
     params =
       attrs
       |> Map.put(:username, username)
-      |> Param.validate()
+      |> Param.harmonize()
 
     "/messaging"
     |> post(params)

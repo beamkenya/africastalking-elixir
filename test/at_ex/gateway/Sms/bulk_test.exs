@@ -75,6 +75,16 @@ defmodule AtEx.Gateway.Sms.BulkTest do
       assert msg["number"] == send_details.to
     end
 
+    test "send_sms/1 raises an exception if either :to or :from params are missing" do
+      assert_raise RuntimeError, fn ->
+        Bulk.send_sms(%{to: "334", message: " "})
+      end
+
+      assert_raise RuntimeError, fn ->
+        Bulk.send_sms(%{to: "", message: "g"})
+      end
+    end
+
     test "fetches sms collects data with correct params" do
       send_details = %{username: "sandbox"}
 

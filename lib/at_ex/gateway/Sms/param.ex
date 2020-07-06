@@ -31,6 +31,7 @@ defmodule AtEx.Gateway.Sms.Param do
 
   @doc """
   Validates the given attributes agaist the Param struct. 
+  The attributes are first converted into a `map()` with `atom()` keys first before being used
   If successful, it returns a `map()` containing only the fields in attributes given.
   It raises an excetion if any of the validations fails. 
 
@@ -44,22 +45,24 @@ defmodule AtEx.Gateway.Sms.Param do
   Before validating the length, the argument is first trimmed to remove leading and padding spaces.
 
   ## Examples
-        iex> AtEx.Gateway.Sms.Param.validate(%{})
+        iex> AtEx.Gateway.Sms.Param.harmonize(%{})
         ** (RuntimeError)     `to` must be at least `3` characters
         
-        iex> AtEx.Gateway.Sms.Param.validate(%{to: "334", message: " "})
+        iex> AtEx.Gateway.Sms.Param.harmonize(%{to: "334", message: " "})
         ** (RuntimeError)     `message` must be at least `1` characters
 
-        iex> AtEx.Gateway.Sms.Param.validate(%{to: "334", message: "hello"})
-        %{message: "   6", to: "334"}
+        iex> AtEx.Gateway.Sms.Param.harmonize(%{to: "334", message: "hello"})
+        %{message: "hello", to: "334"}
 
-        iex> AtEx.Gateway.Sms.Param.validate(%{to: "334", message: "hello", non_existent: "baa"})
+        iex> AtEx.Gateway.Sms.Param.harmonize(%{to: "334", message: "hello", non_existent: "baa"})
         ** (KeyError) key :non_existent not found in: %AtEx.Gateway.Sms.Param{bulkSMSMode: nil, 
         enqueue: nil, from: nil, keyword: nil, linkId: nil, message: "hello", retryDurationInHours: nil, to: nil, username: nil}
 
   """
-  @spec validate(map()) :: map()
-  def validate(attrs) do
+  @spec harmonize(Enumerable.t()) :: map()
+  def harmonize(attrs) do
+    attrs = AtEx.Util.into_atomized_map(attrs)
+
     __MODULE__
     |> struct!(attrs)
     |> validate_length(to: 3, message: 1)
