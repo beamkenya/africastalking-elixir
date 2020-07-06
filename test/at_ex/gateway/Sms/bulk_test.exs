@@ -75,15 +75,6 @@ defmodule AtEx.Gateway.Sms.BulkTest do
       assert msg["number"] == send_details.to
     end
 
-    test "sends_sms/1 should error out without phone number parameter" do
-      # run details through our code
-      {:error, result} = Bulk.send_sms(%{})
-
-      "Request is missing required form field 'to'" = result.message
-
-      400 = result.status
-    end
-
     test "fetches sms collects data with correct params" do
       send_details = %{username: "sandbox"}
 

@@ -4,6 +4,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
   """
   use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
+  alias AtEx.Gateway.Sms.Param
 
   @doc """
   This function builds and runs a post request to send an SMS via the Africa's talking SMS endpoint, this
@@ -21,6 +22,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
     params =
       attrs
       |> Map.put(:username, username)
+      |> Param.validate()
 
     "/messaging"
     |> post(params)
