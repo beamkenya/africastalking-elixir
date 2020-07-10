@@ -25,11 +25,8 @@ defmodule AtEx do
     Airtime,
     Application,
     Sms,
-<<<<<<< HEAD
-    Payments
-=======
+    Payments,
     Voice
->>>>>>> a0484fdb5fc8c22debb390b0da66988694a2e9f3
   }
 
   @doc """
