@@ -1,20 +1,13 @@
 defmodule AtEx.Gateway.Payments.Mobile.Checkout do
   @moduledoc false
+  import AtEx.Util
 
-  # Using this system for delivery of which URL to use (sandbox or live)
-  # determined by whether we are in production or development or test
-  # Selection of the live URL can be forced by setting an environment
-  # variable FORCE_AT_LIVE=YES
-  url =
-    if Mix.env() == :prod || System.get_env("FORCE_AT_LIVE") == "YES" do
-      "https://payments.africastalking.com/mobile"
-    else
-      "https://payments.sandbox.africastalking.com/mobile"
-    end
+  @live_url "https://payments.africastalking.com/mobile"
+  @sandbox_url "https://payments.sandbox.africastalking.com/mobile"
 
   # The `type` config is to allow the api send `application/json` check https://github.com/teamon/tesla#formats for more info
 
-  use AtEx.Gateway.Base, url: url, type: "json"
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url), type: "json"
 
   @doc """
   This function initiates a mobile checkout request by sending a HTTP POST request to the Africa's talking Mobile Checkout endpoint.
