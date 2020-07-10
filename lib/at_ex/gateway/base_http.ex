@@ -37,7 +37,14 @@ defmodule AtEx.Gateway.Base do
       @content_type Application.get_env(:at_ex, :content_type)
 
       plug(Tesla.Middleware.BaseUrl, @config[:url])
-      plug(Tesla.Middleware.FormUrlencoded)
+
+      # The `type` config is to allow the api send `application/json` check https://github.com/teamon/tesla#formats for more info. Needed in requests such as Mobile/checkput
+
+      if @config[:type] && @config[:type] == "json" do
+        plug(Tesla.Middleware.JSON)
+      else
+        plug(Tesla.Middleware.FormUrlencoded)
+      end
 
       plug(Tesla.Middleware.Headers, [
         {"Accept", @accept},
@@ -50,11 +57,19 @@ defmodule AtEx.Gateway.Base do
       """
 
       def process_result({:ok, %{status: 200} = res}) do
-        Jason.decode(res.body)
+        if is_map(res.body) do
+          {:ok, res.body}
+        else
+          Jason.decode(res.body)
+        end
       end
 
       def process_result({:ok, %{status: 201} = res}) do
-        Jason.decode(res.body)
+        if is_map(res.body) do
+          {:ok, res.body}
+        else
+          Jason.decode(res.body)
+        end
       end
 
       def process_result({:ok, result}) do
