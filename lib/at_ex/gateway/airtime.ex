@@ -1,9 +1,14 @@
 defmodule AtEx.Gateway.Airtime do
+  import AtEx.Util
+
   @moduledoc """
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   Application Data endpoint, use it to POST and GET requests to the Application endpoint
   """
-  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1/airtime"
+  @live_url "https://api.africastalking.com/version1/airtime"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1/airtime"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
 
   @type send_input :: %{recipients: list(map())}
   @type call_return :: {:ok, term()} | {:error, term()}
