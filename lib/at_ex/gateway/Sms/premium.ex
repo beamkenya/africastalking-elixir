@@ -1,20 +1,14 @@
 defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
-  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
+  import AtEx.Util
+
+  @live_url "https://api.africastalking.com/version1"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
+
   # Checkout token endpoints
   @live_token_url "https://api.africastalking.com/checkout/token"
   @sandbox_token_url "https://api.sandbox.africastalking.com/checkout/token"
-
-  # Using this system for delivery of which URL to use (sandbox or live)
-  # determined by whether we ar in production or development or test
-  # Selection of the live URL can be forced by setting an environment
-  # variable FORCE_TOKEN_LIVE=YES
-  defp get_token_url do
-    cond do
-      Mix.env() == :prod -> @live_token_url
-      System.get_env("FORCE_TOKEN_LIVE") == "YES" -> @live_token_url
-      true -> @sandbox_token_url
-    end
-  end
 
   @doc """
   This function fetches the checkout token from the checkout token endpoint
@@ -32,7 +26,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   def generate_checkout_token(phone_number) do
     # Can't use the default client, since we have a different URL
     token_middleware = [
-      {Tesla.Middleware.BaseUrl, get_token_url()},
+      {Tesla.Middleware.BaseUrl, get_url(@live_token_url, @sandbox_token_url)},
       Tesla.Middleware.FormUrlencoded
     ]
 
