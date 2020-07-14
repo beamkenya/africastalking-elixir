@@ -16,10 +16,10 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
   add `bank_transfer_product_name` key to your AtEx `configs`
 
   ## Parameters
-  attrs: - a list of recipients each containing a map with `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
+  attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}, %{bankAccount: %{accountName: "KCB", accountNumber: "9389289256743", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
+    iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
     
     {:ok,
   %{
@@ -73,8 +73,8 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
             !Map.has_key?(param, :currencyCode) ->
               {:error, "The request is missing required member 'currencyCode'"}
 
-            Map.has_key?(param, :metadata) && !is_map(param.metadata) ->
-              {:error, "The optional member 'metadata' must be a map"}
+            !Map.has_key?(param, :metadata) || !is_map(param.metadata) ->
+              {:error, "The required member 'metadata' must be a map"}
 
             !Map.has_key?(param, :bankAccount) || !is_map(param.bankAccount) ->
               {:error, "The required member 'bankAccount' must be a map"}

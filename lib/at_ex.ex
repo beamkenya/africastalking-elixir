@@ -206,6 +206,34 @@ defmodule AtEx do
   defdelegate bank_validate(map), to: Payments.Bank.Validate
 
   @doc """
+  Bank checkout validation APIs allow your application to validate bank checkout charge requests.
+
+  ## Config
+  add `bank_transfer_product_name` key to your AtEx `configs`
+
+  ## Parameters
+  attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
+
+  ## Example 
+    iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
+    
+    {:ok,
+  %{
+     "entries": [{
+        "accountNumber": "93892892",
+        "status": "Queued",
+        "transactionId": "ATPid_SampleTxnId",
+        "transactionFee": "NGN 50.00"
+    }, {
+        "accountNumber": "9389289256743",
+        "status": "InsufficientFunds",
+        "errorMessage": "Insufficient funds in the wallet"
+    }]
+  }}
+  """
+  defdelegate bank_transfer(map), to: Payments.Bank.Transfer
+
+  @doc """
   This function makes a POST request to make a call  via the Africa's talking call endpoint, through delegation
   this function accepts a map of parameters.
   sent
