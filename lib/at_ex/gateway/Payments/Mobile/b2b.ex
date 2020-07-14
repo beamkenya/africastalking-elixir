@@ -12,6 +12,9 @@ defmodule AtEx.Gateway.Payments.Mobile.B2b do
   @doc """
   Mobile Business To Business (B2B) APIs allow you to send payments to businesses e.g banks from your Payment Wallet.
 
+  ## Config
+  Add `b2b_product_name` key to the AtEx config values
+
   ## Parameters
   attrs: - a map containing a `provider(Mpesa,TigoTanzania,Athena)`, `transferType(BusinessBuyGoods,BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer)`, `currencyCode` `amount`, `destinationChannel`, `destinationAccount` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2b for how to use these keys
 

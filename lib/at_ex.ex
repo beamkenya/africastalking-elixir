@@ -191,7 +191,10 @@ defmodule AtEx do
   This function makes a POST request to make a call  via the Africa's talking call endpoint, through delegation
   this function accepts a map of parameters.
   sent
-
+  
+  ## Config
+  Add `b2b_product_name` key to the AtEx config values
+  
   ## Parameters
   attrs: - a map containing:
   - `from` - your Africa’s Talking phone number (in international format i.e. +XXXYYYYYY)
