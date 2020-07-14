@@ -215,7 +215,7 @@ defmodule AtEx do
   attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
+    iex>AtEx.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
     
     {:ok,
   %{
@@ -224,10 +224,6 @@ defmodule AtEx do
         "status": "Queued",
         "transactionId": "ATPid_SampleTxnId",
         "transactionFee": "NGN 50.00"
-    }, {
-        "accountNumber": "9389289256743",
-        "status": "InsufficientFunds",
-        "errorMessage": "Insufficient funds in the wallet"
     }]
   }}
   """

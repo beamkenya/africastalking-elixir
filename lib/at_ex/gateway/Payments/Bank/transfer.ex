@@ -28,10 +28,6 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
         "status": "Queued",
         "transactionId": "ATPid_SampleTxnId",
         "transactionFee": "NGN 50.00"
-    }, {
-        "accountNumber": "9389289256743",
-        "status": "InsufficientFunds",
-        "errorMessage": "Insufficient funds in the wallet"
     }]
   }}
   """
