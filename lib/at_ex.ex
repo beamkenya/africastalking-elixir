@@ -219,7 +219,7 @@ defmodule AtEx do
     
     {:ok,
   %{
-     "entries": [{
+     "entries": [%{
         "accountNumber": "93892892",
         "status": "Queued",
         "transactionId": "ATPid_SampleTxnId",
