@@ -12,5 +12,6 @@ config :at_ex,
   stk_product_name: "AtEx",
   b2c_product_name: "AtEx",
   bank_checkout_product_name: "AtEx",
+  bank_transfer_product_name: "AtEx",
   # When changed to "YES" one will use the live endpoint url
   force_live_url: "NO"
