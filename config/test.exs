@@ -8,4 +8,5 @@ config :at_ex,
   accept: "application/json",
   auth_token: "",
   stk_product_name: "AtEx",
-  b2c_product_name: "AtEx"
+  b2c_product_name: "AtEx",
+  bank_checkout_product_name: "AtEx",
