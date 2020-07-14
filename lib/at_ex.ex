@@ -170,6 +170,26 @@ defmodule AtEx do
   defdelegate b2c_checkout(map), to: Payments.Mobile.B2c
 
   @doc """
+  Bank checkout APIs allow your application to collect money into your payment wallet by initiating transactions that deduct money from a customers bank account.
+
+  ## Config
+  add `bank_checkout_product_name` key to your AtEx `configs`
+
+  ## Parameters
+  attrs: - a map containing `bankAccount`(a map), `currencyCode`, `amount`, `narration` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fcheckout for how to use these keys
+
+  ## Example 
+    iex>AtEx.bank_checkout(%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}})
+    {:ok,
+  %{
+   "description" => "Payment is pending validation by the user",
+   "status" => "PendingValidation",
+   "transactionId" => "ATPid_722a5dbaf1e8be4832614b523810dc29"
+  }}
+  """
+  defdelegate bank_checkout(map), to: Payments.Bank.Checkout
+
+  @doc """
   This function makes a POST request to make a call  via the Africa's talking call endpoint, through delegation
   this function accepts a map of parameters.
   sent

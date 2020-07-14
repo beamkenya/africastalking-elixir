@@ -20,14 +20,12 @@ defmodule AtEx.Gateway.Payments.Bank.Checkout do
 
   ## Example 
     iex>AtEx.Gateway.Payments.Bank.Checkout.bank_checkout(%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}})
-    %{:ok,
-        %{
-        "description" => "Waiting for user input",
-        "providerChannel" => "525900",
-        "status" => "PendingConfirmation",
-        "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
-        }
-    }
+    {:ok,
+  %{
+   "description" => "Payment is pending validation by the user",
+   "status" => "PendingValidation",
+   "transactionId" => "ATPid_722a5dbaf1e8be4832614b523810dc29"
+  }}
   """
   @spec bank_checkout(map()) :: {:ok, term()} | {:error, term()}
   def bank_checkout(attrs) do
