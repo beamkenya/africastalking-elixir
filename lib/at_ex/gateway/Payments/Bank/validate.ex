@@ -16,7 +16,8 @@ defmodule AtEx.Gateway.Payments.Bank.Validate do
   attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fvalidate for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Validate.bank_validate(%{transactionId: "63gvd6326t6732", otp: "password"})
+    iex>AtEx.Gateway.Payments.Bank.Validate.bank_validate(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795", otp: "password"})
+    
     {:ok,
   %{
     "status": "Success",
