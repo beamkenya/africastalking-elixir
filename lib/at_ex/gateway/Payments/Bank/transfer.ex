@@ -53,7 +53,7 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
   end
 
   def bank_transfer(list) when not is_list(list),
-    do: {:error, "The requst body should be a list of a map of recipients"}
+    do: {:error, "The request body should be a list of a map of recipients"}
 
   defp validate_attrs(attrs) do
     case Enum.all?(attrs, &is_map(&1)) do

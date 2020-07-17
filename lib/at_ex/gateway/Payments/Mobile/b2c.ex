@@ -61,7 +61,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
     do: {:error, "Too many phone numbers in the request (maximum is 10)"}
 
   def b2c_checkout(list) when not is_list(list),
-    do: {:error, "The requst body should be a list of a map of recipients"}
+    do: {:error, "The request body should be a list of a map of recipients"}
 
   defp validate_attrs(attrs) do
     case Enum.all?(attrs, &is_map(&1)) do
