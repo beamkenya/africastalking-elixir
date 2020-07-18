@@ -132,7 +132,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2cTest do
       }
 
       {:error, message} = B2c.b2c_checkout(details)
-      assert "The requst body should be a list of a map of recipients" = message
+      assert "The request body should be a list of a map of recipients" = message
     end
   end
 end
