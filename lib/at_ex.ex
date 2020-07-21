@@ -170,6 +170,24 @@ defmodule AtEx do
   defdelegate b2c_checkout(map), to: Payments.Mobile.B2c
 
   @doc """
+  Mobile Business To Business (B2B) APIs allow you to send payments to businesses e.g banks from your Payment Wallet.
+
+  ## Parameters
+  attrs: - a map containing a `provider(Mpesa,TigoTanzania,Athena)`, `transferType(BusinessBuyGoods,BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer)`, `currencyCode` `amount`, `destinationChannel`, `destinationAccount` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2b for how to use these keys
+
+  ## Example 
+    iex>AtEx.Gateway.Payments.Mobile.B2b.b2b_checkout(%{provider: "Athena", transferType: "DisburseFundsToBusiness", amount: 10, currencyCode: "KES", destinationChannel: "Mine", destinationAccount: "Mine", metadata: %{ message: "I am here"}})
+    {:ok,
+  %{
+   "providerChannel" => "525900",
+   "status" => "Queued",
+   "transactionFee" => "KES 0.1000",
+   "transactionId" => "ATPid_2504d5f5d28256fa264e815518e3ab0d"
+  }}
+  """
+  defdelegate b2b_checkout(map), to: Payments.Mobile.B2b
+
+  @doc """
   Bank checkout APIs allow your application to collect money into your payment wallet by initiating transactions that deduct money from a customers bank account.
 
   ## Config
@@ -233,6 +251,9 @@ defmodule AtEx do
   This function makes a POST request to make a call  via the Africa's talking call endpoint, through delegation
   this function accepts a map of parameters.
   sent
+
+  ## Config
+  Add `b2b_product_name` key to the AtEx config values
 
   ## Parameters
   attrs: - a map containing:

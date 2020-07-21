@@ -9,5 +9,6 @@ config :at_ex,
   auth_token: "",
   stk_product_name: "AtEx",
   b2c_product_name: "AtEx",
+  b2b_product_name: "AtEx",
   bank_checkout_product_name: "AtEx",
   bank_transfer_product_name: "AtEx"
