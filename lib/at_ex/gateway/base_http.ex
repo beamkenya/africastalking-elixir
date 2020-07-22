@@ -28,7 +28,7 @@ defmodule AtEx.Gateway.Base do
   """
   defmacro __using__(opts) do
     quote do
-      use Tesla
+      use Tesla, docs: false
 
       @config unquote(opts)
 

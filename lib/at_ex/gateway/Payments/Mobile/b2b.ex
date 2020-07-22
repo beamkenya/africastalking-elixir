@@ -21,15 +21,15 @@ defmodule AtEx.Gateway.Payments.Mobile.B2b do
   attrs: - a map containing a `provider(Mpesa,TigoTanzania,Athena)`, `transferType(BusinessBuyGoods,BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer)`, `currencyCode` `amount`, `destinationChannel`, `destinationAccount` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2b for how to use these keys
 
   ## Example 
-  
+
         iex>AtEx.Gateway.Payments.Mobile.B2b.b2b_checkout(%{provider: "Athena", transferType: "DisburseFundsToBusiness", amount: 10, currencyCode: "KES", destinationChannel: "Mine", destinationAccount: "Mine", metadata: %{ message: "I am here"}})
         {:ok,
-    %{
-    "providerChannel" => "525900",
-    "status" => "Queued",
-    "transactionFee" => "KES 0.1000",
-    "transactionId" => "ATPid_2504d5f5d28256fa264e815518e3ab0d"
-    }}
+        %{
+        "providerChannel" => "525900",
+        "status" => "Queued",
+        "transactionFee" => "KES 0.1000",
+        "transactionId" => "ATPid_2504d5f5d28256fa264e815518e3ab0d"
+        }}
   """
 
   @spec b2b_checkout(map()) :: {:ok, term()} | {:error, term()}
