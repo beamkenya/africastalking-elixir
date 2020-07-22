@@ -144,6 +144,9 @@ defmodule AtEx do
   @doc """
   This function initiates a mobile B2C request by making a HTTP POST request to the Africa's talking Mobile B2C endpoint.
 
+  ## Config
+  Add `stk_product_name` key to your AtEx `configs`
+
   ## Parameters
   attrs: - a list of Recipient each a map containing a `phoneNumber`, `currencyCode`, `amount` and a map of `metadata` key optionally it may also contain `name`, `reason` and `providerChannel` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2c%2Foverview for how to use these keys
 
@@ -172,6 +175,9 @@ defmodule AtEx do
   @doc """
   Mobile Business To Business (B2B) APIs allow you to send payments to businesses e.g banks from your Payment Wallet.
 
+  ## Config
+  Add `b2c_product_name` key to your AtEx `configs`
+
   ## Parameters
   attrs: - a map containing a `provider(Mpesa,TigoTanzania,Athena)`, `transferType(BusinessBuyGoods,BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer)`, `currencyCode` `amount`, `destinationChannel`, `destinationAccount` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2b for how to use these keys
 
@@ -191,7 +197,7 @@ defmodule AtEx do
   Bank checkout APIs allow your application to collect money into your payment wallet by initiating transactions that deduct money from a customers bank account.
 
   ## Config
-  add `bank_checkout_product_name` key to your AtEx `configs`
+  Add `bank_checkout_product_name` key to your AtEx `configs`
 
   ## Parameters
   attrs: - a map containing `bankAccount`(a map), `currencyCode`, `amount`, `narration` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fcheckout for how to use these keys
@@ -227,7 +233,7 @@ defmodule AtEx do
   Bank checkout validation APIs allow your application to validate bank checkout charge requests.
 
   ## Config
-  add `bank_transfer_product_name` key to your AtEx `configs`
+  Add `bank_transfer_product_name` key to your AtEx `configs`
 
   ## Parameters
   attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys

@@ -13,6 +13,9 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
   @doc """
   This function initiates a mobile B2C request by making a HTTP POST request to the Africa's talking Mobile B2C endpoint.
 
+  ## Config
+  Add `b2c_product_name` key to your AtEx `configs`
+
   ## Parameters
   attrs: - a list of Recipient each a map containing a `phoneNumber`, `currencyCode`, `amount` and a map of `metadata` key optionally it may also contain `name`, `reason` and `providerChannel` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2c%2Foverview for how to use these keys
 

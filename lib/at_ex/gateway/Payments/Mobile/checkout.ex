@@ -12,6 +12,9 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
   @doc """
   This function initiates a mobile checkout request by sending a HTTP POST request to the Africa's talking Mobile Checkout endpoint.
 
+  ## Config
+  Add `stk_product_name` key to your AtEx `configs`
+
   ## Parameters
   attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
 
