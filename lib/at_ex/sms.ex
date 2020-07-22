@@ -1,5 +1,7 @@
 defmodule AtEx.Sms do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API SMS endpoints
+  """
 
   alias AtEx.Gateway.Sms
 

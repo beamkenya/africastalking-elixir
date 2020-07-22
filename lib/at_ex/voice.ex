@@ -1,5 +1,7 @@
 defmodule AtEx.Voice do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API Voice endpoints
+  """
   alias AtEx.Gateway.Voice
 
   @doc """

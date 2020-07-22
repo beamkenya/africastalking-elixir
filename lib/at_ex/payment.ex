@@ -1,5 +1,7 @@
 defmodule AtEx.Payment do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API Payment endpoints
+  """
 
   alias AtEx.Gateway.Payments
 
