@@ -1,5 +1,7 @@
 defmodule AtEx.Gateway.Payments.Bank.Validate do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Bank Trabsfer Validation API
+  """
   import AtEx.Util
 
   @live_url "https://payments.africastalking.com/bank"
@@ -16,13 +18,13 @@ defmodule AtEx.Gateway.Payments.Bank.Validate do
   attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fvalidate for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Validate.bank_validate(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795", otp: "password"})
-    
-    {:ok,
-  %{
-    "status": "Success",
-    "description": "Payment completed successfully"
-  }}
+        iex>AtEx.Gateway.Payments.Bank.Validate.bank_validate(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795", otp: "password"})
+        
+        {:ok,
+        %{
+            "status": "Success",
+            "description": "Payment completed successfully"
+        }}
   """
   @spec bank_validate(map()) :: {:ok, term()} | {:error, term()}
   def bank_validate(attrs) do

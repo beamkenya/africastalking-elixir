@@ -1,5 +1,7 @@
 defmodule AtEx.Gateway.Payments.Bank.Checkout do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Bank Checkout API
+  """
   import AtEx.Util
 
   @live_url "https://payments.africastalking.com/bank"
@@ -19,13 +21,14 @@ defmodule AtEx.Gateway.Payments.Bank.Checkout do
   attrs: - a map containing `bankAccount`(a map), `currencyCode`, `amount`, `narration` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fcheckout for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Checkout.bank_checkout(%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}})
-    {:ok,
-  %{
-   "description" => "Payment is pending validation by the user",
-   "status" => "PendingValidation",
-   "transactionId" => "ATPid_722a5dbaf1e8be4832614b523810dc29"
-  }}
+
+        iex>AtEx.Gateway.Payments.Bank.Checkout.bank_checkout(%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}})
+        {:ok,
+        %{
+        "description" => "Payment is pending validation by the user",
+        "status" => "PendingValidation",
+        "transactionId" => "ATPid_722a5dbaf1e8be4832614b523810dc29"
+        }}
   """
   @spec bank_checkout(map()) :: {:ok, term()} | {:error, term()}
   def bank_checkout(attrs) do

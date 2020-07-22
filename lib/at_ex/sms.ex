@@ -15,22 +15,22 @@ defmodule AtEx.Sms do
       link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
 
   ## Examples
-  iex> AtEx.Sms.send_sms(%{to: "+254721978097", message: "Howdy"})
-    {:ok,
-      %{
-        "SMSMessageData" => %{
-        "Message" => "Sent to 1/1 Total Cost: ZAR 0.1124",
-        "Recipients" => [
+        iex> AtEx.Sms.send_sms(%{to: "+254721978097", message: "Howdy"})
+        {:ok,
         %{
-          "cost" => "KES 0.8000",
-          "messageId" => "ATXid_96e52a761a82c1bad58e885109224aad",
-          "number" => "+254721978097",
-          "status" => "Success",
-          "statusCode" => 101
+            "SMSMessageData" => %{
+            "Message" => "Sent to 1/1 Total Cost: ZAR 0.1124",
+            "Recipients" => [
+            %{
+            "cost" => "KES 0.8000",
+            "messageId" => "ATXid_96e52a761a82c1bad58e885109224aad",
+            "number" => "+254721978097",
+            "status" => "Success",
+            "statusCode" => 101
+            }
+            ]
         }
-        ]
-      }
-    }}
+        }}
   """
   defdelegate send_sms(map), to: Sms.Bulk
 

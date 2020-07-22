@@ -1,5 +1,7 @@
 defmodule AtEx.Gateway.Payments.Mobile.B2c do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Mobile B2C API
+  """
 
   import AtEx.Util
 
@@ -20,24 +22,24 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
   attrs: - a list of Recipient each a map containing a `phoneNumber`, `currencyCode`, `amount` and a map of `metadata` key optionally it may also contain `name`, `reason` and `providerChannel` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2c%2Foverview for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Mobile.B2c.b2c_checkout([%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES", metadata: %{ message: "I am here"}}])
-    {:ok,
-  %{
-   "entries" => [
-     %{
-       "phoneNumber" => "+254724540000",
-       "provider" => "Athena",
-       "providerChannel" => "525900",
-       "status" => "Queued",
-       "transactionFee" => "KES 0.1000",
-       "transactionId" => "ATPid_2b76da39eebd5c6bcc49e5d30c3d0390",
-       "value" => "KES 10.0000"
-     }
-   ],
-   "numQueued" => 1,
-   "totalTransactionFee" => "KES 0.1000",
-   "totalValue" => "KES 10.0000"
-  }}
+        iex>AtEx.Gateway.Payments.Mobile.B2c.b2c_checkout([%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES", metadata: %{ message: "I am here"}}])
+        {:ok,
+        %{
+        "entries" => [
+            %{
+            "phoneNumber" => "+254724540000",
+            "provider" => "Athena",
+            "providerChannel" => "525900",
+            "status" => "Queued",
+            "transactionFee" => "KES 0.1000",
+            "transactionId" => "ATPid_2b76da39eebd5c6bcc49e5d30c3d0390",
+            "value" => "KES 10.0000"
+            }
+        ],
+        "numQueued" => 1,
+        "totalTransactionFee" => "KES 0.1000",
+        "totalValue" => "KES 10.0000"
+        }}
   """
   @spec b2c_checkout(list()) :: {:ok, term()} | {:error, term()}
   def b2c_checkout(attrs) when is_list(attrs) and length(attrs) <= 10 do

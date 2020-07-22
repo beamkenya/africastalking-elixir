@@ -1,5 +1,7 @@
 defmodule AtEx.Gateway.Payments.Bank.Transfer do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Bank Transfer API
+  """
   import AtEx.Util
 
   @live_url "https://payments.africastalking.com/bank"
@@ -19,17 +21,17 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
   attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
-    
-    {:ok,
-  %{
-     "entries": [%{
-        "accountNumber": "93892892",
-        "status": "Queued",
-        "transactionId": "ATPid_SampleTxnId",
-        "transactionFee": "NGN 50.00"
-    }]
-  }}
+        iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
+        
+        {:ok,
+        %{
+            "entries": [%{
+                "accountNumber": "93892892",
+                "status": "Queued",
+                "transactionId": "ATPid_SampleTxnId",
+                "transactionFee": "NGN 50.00"
+            }]
+        }}
   """
   @spec bank_transfer(list()) :: {:ok, term()} | {:error, term()}
   def bank_transfer(attrs) when is_list(attrs) do
