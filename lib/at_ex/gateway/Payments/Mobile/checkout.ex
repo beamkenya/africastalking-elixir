@@ -1,5 +1,7 @@
 defmodule AtEx.Gateway.Payments.Mobile.Checkout do
-  @moduledoc false
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Mobile Checkout API
+  """
   import AtEx.Util
 
   @live_url "https://payments.africastalking.com/mobile"
@@ -12,19 +14,22 @@ defmodule AtEx.Gateway.Payments.Mobile.Checkout do
   @doc """
   This function initiates a mobile checkout request by sending a HTTP POST request to the Africa's talking Mobile Checkout endpoint.
 
+  ## Config
+  Add `stk_product_name` key to your AtEx `configs`
+
   ## Parameters
   attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
 
   ## Example 
-    iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
-    %{:ok,
-        %{
-        "description" => "Waiting for user input",
-        "providerChannel" => "525900",
-        "status" => "PendingConfirmation",
-        "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
+        iex>AtEx.Gateway.Payments.Mobile.Checkout.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
+        %{:ok,
+            %{
+            "description" => "Waiting for user input",
+            "providerChannel" => "525900",
+            "status" => "PendingConfirmation",
+            "transactionId" => "ATPid_bbd0bcd713e27d9201807076c6db0ed5"
+            }
         }
-    }
   """
   @spec mobile_checkout(map()) :: {:ok, term()} | {:error, term()}
   def mobile_checkout(attrs) do

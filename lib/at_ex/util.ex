@@ -1,4 +1,7 @@
 defmodule AtEx.Util do
+  @moduledoc false
+
+  @doc false
   @spec get_url(String.t(), String.t()) :: String.t()
   def get_url(live_url, sandbox_url) do
     cond do
