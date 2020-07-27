@@ -19,7 +19,7 @@ defmodule AtEx.Gateway.Payments.Card.Checkout do
   Add `card_checkout_product_name` key to your AtEx `configs`
 
   ## Parameters
-  attrs: - a map containing `bankAccount`(a map), `currencyCode`, `amount`, `narration` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fcheckout for how to use these keys
+  attrs: - a map containing either `paymentCard`(a map) or `checkoutToken`, `currencyCode`, `amount`, `narration` and a map of `metadata`(optional) see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fcheckout for how to use these keys
 
   ## Example 
 

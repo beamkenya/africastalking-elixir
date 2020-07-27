@@ -16,7 +16,7 @@ defmodule AtEx.Gateway.Payments.Card.Validate do
   Card checkout validation APIs allow your application to validate card checkout charge requests.
 
   ## Parameters
-  attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fvalidate for how to use these keys
+  attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fvalidate for how to use these keys
 
   ## Example 
         iex>AtEx.Gateway.Payments.Card.Validate.card_validate(%{transactionId: "ATPid_SampleTxnId123", otp: "password"})
