@@ -24,7 +24,11 @@ defmodule AtEx.Gateway.Payments.Card.Checkout do
   ## Example 
 
         iex>AtEx.Gateway.Payments.Card.Checkout.card_checkout(%{amount: 1000.00, currencyCode: "KES", narration: "Payment", paymentCard: %{number: "10928873477387", cvvNumber: 253, expiryMonth: 12, expiryYear: 2020, countryCode: "NG", authToken: "jhdguyt6372gsu6q"}})
-        {:ok, %{}}
+        {:ok, %{
+              status: "PendingValidation",
+              description: "Waiting for user input",
+              transactionId: "ATPid_SampleTxnId123"
+            }}
   """
   @spec card_checkout(map()) :: {:ok, term()} | {:error, term()}
   def card_checkout(attrs) do
