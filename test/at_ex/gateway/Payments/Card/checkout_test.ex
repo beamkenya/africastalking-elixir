@@ -23,7 +23,7 @@ defmodule AtEx.Gateway.Payments.Card.CheckoutTest do
     :ok
   end
 
-  describe "Bank Checkout" do
+  describe "Card Checkout" do
     test "card_checkout/1 should initiate card checkout  successfully" do
       details = %{
         amount: 1000.00,
