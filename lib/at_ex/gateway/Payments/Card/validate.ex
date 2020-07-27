@@ -20,12 +20,11 @@ defmodule AtEx.Gateway.Payments.Card.Validate do
 
   ## Example 
         iex>AtEx.Gateway.Payments.Card.Validate.card_validate(%{transactionId: "ATPid_SampleTxnId123", otp: "password"})
-        
         {:ok,
         %{
-            "status": "Success",
-            "description": "Payment completed successfully",
-            "checkoutToken": "ATCdTkn_SampleCdTknId123"
+            status: "Success",
+            description: "Payment completed successfully",
+            checkoutToken: "ATCdTkn_SampleCdTknId123"
         }}
   """
   @spec card_validate(map()) :: {:ok, term()} | {:error, term()}
