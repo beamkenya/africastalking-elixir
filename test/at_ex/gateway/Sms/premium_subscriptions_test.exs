@@ -1,4 +1,4 @@
-defmodule AtEx.Gateway.SmsTest do
+defmodule AtEx.Gateway.PremiumSubscriptionsTest do
   @moduledoc """
   This module holds unit tests for the functions in the SMS gateway
   """
