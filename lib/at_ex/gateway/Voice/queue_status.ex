@@ -18,10 +18,26 @@ defmodule AtEx.Gateway.Voice.QueueStatus do
 
 
   ## Example
-      iex> AtEx.Gateway.Voice.QueueStatus.status(%{
-        ...>   phoneNumbers: "+254722000000"
+        iex> AtEx.Gateway.Voice.QueueStatus.status(%{
+        ...>   phoneNumbers: "+254728833180, +254728907896"
         ...> })
-        {:ok, result}
+        {:ok, 
+        %{
+              "entries" => [
+                %{
+                  "phoneNumber" => "+254728833180",
+                  "queueName" => "",
+                  "numCalls" => 1
+                },
+                %{
+                  "phoneNumber" => "+254728907896",
+                  "queueName" => "",
+                  "numCalls" => 4
+                }
+              ],
+              "errorMessage" => "None",
+              "status" => "Success"
+            }}
   """
 
   def status(attrs) do

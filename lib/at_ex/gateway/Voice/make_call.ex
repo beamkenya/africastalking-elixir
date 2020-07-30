@@ -17,7 +17,17 @@ defmodule AtEx.Gateway.Voice.MakeCall do
       ...>   to: "+254728907896",
       ...>   from: "+254728900922",
       ...> })
-      {:ok, result}
+      {:ok, 
+        %{
+            "entries" => [
+            %{
+                "phoneNumber" => "+254728907896",
+                "sessionId" => "ATVId_cb29c2b9fc27983827afc00786c4f9ea",
+                "status" => "Queued"
+            }
+            ],
+            "errorMessage" => "None"
+        }}
   """
 
   @spec call(map()) :: {:ok, term()} | {:error, term()}

@@ -6,6 +6,7 @@ defmodule AtEx.Gateway.Voice.MakeCallTest do
 
   import Tesla.Mock
 
+  doctest AtEx.Gateway.Voice.MakeCall
   alias AtEx.Gateway.Voice.MakeCall
 
   @attr "username="
