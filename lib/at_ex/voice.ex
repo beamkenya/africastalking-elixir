@@ -26,4 +26,39 @@ defmodule AtEx.Voice do
       {:ok, result}
   """
   defdelegate call(map), to: Voice.MakeCall
+
+  @doc """
+  This function makes a POST request to check the queue status of voice calls via the Africa's talking queue status endpoint, this
+  function accepts a map of parameters.
+  sent
+
+  ## Parameters
+  attrs: - a map containing:
+    - `username` - Your Africa’s Talking application username. Can be set in the config
+    - `phoneNumbers` - A comma separated list of one or more numbers mapped to your Africa’s Talking account.
+
+
+  ## Example
+        iex> AtEx.Voice.status(%{
+        ...>   phoneNumbers: "+254728833180, +254728907896"
+        ...> })
+        {:ok, 
+        %{
+              "entries" => [
+                %{
+                  "phoneNumber" => "+254728833180",
+                  "queueName" => "",
+                  "numCalls" => 1
+                },
+                %{
+                  "phoneNumber" => "+254728907896",
+                  "queueName" => "",
+                  "numCalls" => 4
+                }
+              ],
+              "errorMessage" => "None",
+              "status" => "Success"
+            }}
+  """
+  defdelegate status(map), to: Voice.QueueStatus
 end
