@@ -1,5 +1,10 @@
 defmodule AtEx.Gateway.Voice.MakeCall do
-  use AtEx.Gateway.Base, url: "https://voice.sandbox.africastalking.com"
+  import AtEx.Util
+
+  @live_url "https://voice.africastalking.com"
+  @sandbox_url "https://voice.sandbox.africastalking.com"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
 
   @doc """
   This function makes a POST request to make a call  via the Africa's talking call endpoint, this
