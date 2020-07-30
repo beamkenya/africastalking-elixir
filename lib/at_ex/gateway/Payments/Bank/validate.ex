@@ -19,11 +19,10 @@ defmodule AtEx.Gateway.Payments.Bank.Validate do
 
   ## Example 
         iex>AtEx.Gateway.Payments.Bank.Validate.bank_validate(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795", otp: "password"})
-        
         {:ok,
         %{
-            "status": "Success",
-            "description": "Payment completed successfully"
+            "status" => "Success",
+            "description" => "Payment completed successfully"
         }}
   """
   @spec bank_validate(map()) :: {:ok, term()} | {:error, term()}
