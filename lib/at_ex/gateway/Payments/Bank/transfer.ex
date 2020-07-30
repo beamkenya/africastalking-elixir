@@ -24,12 +24,14 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
         iex>AtEx.Gateway.Payments.Bank.Transfer.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
         {:ok,
         %{
-            "entries" => [%{
-                "accountNumber" => "93892892",
-                "status" => "Queued",
-                "transactionId" => "ATPid_SampleTxnId",
-                "transactionFee" => "NGN 50.00"
-            }]
+            "entries" => [
+                %{
+                    "accountNumber" => "93892892",
+                    "status" => "Queued",
+                    "transactionId" => "ATPid_SampleTxnId",
+                    "transactionFee" => "NGN 50.00"
+                }
+            ]
         }}
   """
   @spec bank_transfer(list()) :: {:ok, term()} | {:error, term()}
