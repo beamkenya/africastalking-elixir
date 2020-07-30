@@ -4,6 +4,7 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   """
   use ExUnit.Case
 
+  doctest AtEx.Gateway.Sms.Bulk
   alias AtEx.Gateway.Sms.Bulk
 
   @attr "username="
@@ -27,7 +28,7 @@ defmodule AtEx.Gateway.Sms.BulkTest do
                   %{
                     "cost" => "KES 0.8000",
                     "messageId" => "ATXid_a584c3fd712a00b7bce3c4b7b552ac56",
-                    "number" => "+254728833181",
+                    "number" => "+254721978097",
                     "status" => "Success",
                     "statusCode" => 101
                   }
@@ -63,7 +64,7 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   describe "Sms Gateway" do
     test "sends_sms/1 should send sms with required parameters" do
       # make message details
-      send_details = %{to: "+254728833181", message: "new music"}
+      send_details = %{to: "+254721978097", message: "new music"}
 
       # run details through our code
       {:ok, result} = Bulk.send_sms(send_details)

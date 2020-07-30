@@ -67,6 +67,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   ## Parameters
   attrs: - a map containing:
   - `phoneNumber` - phone number to be subscribed
+  Check https://build.at-labs.io/docs/sms%2Fpremium_subscriptions%2Fcreate
 
   ## Example
       iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+25471231111"})

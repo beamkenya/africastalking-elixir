@@ -18,6 +18,24 @@ defmodule AtEx.Gateway.Sms.Bulk do
   ## Parameters
   attrs: - a map containing a `to` and `message` key optionally it may also contain `from`, bulk_sms, enqueue, key_word
   link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
+
+  ## Examples
+        iex> AtEx.Sms.send_sms(%{to: "+254721978097", message: "Howdy"})
+        {:ok,
+        %{
+            "SMSMessageData" => %{
+            "Message" => "Sent to 1/1 Total Cost: ZAR 0.1124",
+            "Recipients" => [
+                %{
+                "cost" => "KES 0.8000",
+                "messageId" => "ATXid_a584c3fd712a00b7bce3c4b7b552ac56",
+                "number" => "+254721978097",
+                "status" => "Success",
+                "statusCode" => 101
+                }
+            ]
+        }
+        }}
   """
   @spec send_sms(map()) :: {:ok, term()} | {:error, term()}
   def send_sms(attrs) do
@@ -39,6 +57,26 @@ defmodule AtEx.Gateway.Sms.Bulk do
 
   ## Parameters
   attrs: - an empty map or a map containing optionally `lastReceivedId` of the message to be fetched, see the docs at https://build.at-labs.io/docs/sms%2Ffetch_messages for how to use these keys
+
+  ## Examples
+      iex> AtEx.Sms.fetch_sms(%{})
+      {:ok,
+        %{
+            "SMSMessageData" => %{
+            "Messages" => [
+                %{
+                "linkId" => "SampleLinkId123",
+                "text" => "Hello",
+                "to" => "28901",
+                "id" => 15071,
+                "date" => "2018-03-19T08:34:18.445Z",
+                "from" => "+254711XXXYYY"
+                }
+            ]
+            }
+        }
+      }
+
   """
 
   @spec fetch_sms(map()) :: {:error, any()} | {:ok, any()}
