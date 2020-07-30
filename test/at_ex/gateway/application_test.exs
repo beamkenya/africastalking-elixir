@@ -3,6 +3,7 @@ defmodule AtEx.Gateway.ApplicationTest do
   This module holds unit tests for the functions in the Application gateway
   """
   use ExUnit.Case
+  doctest AtEx.Gateway.Application
   alias AtEx.Gateway.Application
 
   setup do
