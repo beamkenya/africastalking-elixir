@@ -4,6 +4,8 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   """
   use ExUnit.Case
 
+  # doctest AtEx.Gateway.Sms.Bulk
+
   alias AtEx.Gateway.Sms.Bulk
 
   @attr "username="
