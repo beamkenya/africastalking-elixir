@@ -4,7 +4,6 @@ defmodule AtEx.Gateway.Sms.Bulk do
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
   """
   use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
-  alias AtEx.Gateway.Sms.Param
 
   @doc """
   This function builds and runs a post request to send an SMS via the Africa's talking SMS endpoint, this
@@ -16,17 +15,29 @@ defmodule AtEx.Gateway.Sms.Bulk do
   link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
   """
   @spec send_sms(map()) :: {:ok, term()} | {:error, term()}
-  def send_sms(attrs) do
+  def send_sms(%{to: _to, message: _msg} = attrs) do
     username = Application.get_env(:at_ex, :username)
 
     params =
       attrs
       |> Map.put(:username, username)
-      |> Param.harmonize()
 
     "/messaging"
     |> post(params)
     |> process_result()
+  end
+
+  def send_sms(%{to: _to}) do
+    {:error, %{status: 400, message: "Request is missing required form field 'message'"}}
+  end
+
+  def send_sms(%{message: _msg}) do
+    {:error, %{status: 400, message: "Request is missing required form field 'to'"}}
+  end
+
+  def send_sms(_) do
+    {:error,
+     %{status: 400, message: "Request is missing required form fields 'to' and 'message'"}}
   end
 
   @doc """
