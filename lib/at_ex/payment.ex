@@ -11,7 +11,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing a `phoneNumber`, `currencyCode` and `amount` key optionally it may also contain `providerChannel` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fcheckout for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
         %{
@@ -32,7 +32,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a list of Recipient each a map containing a `phoneNumber`, `currencyCode`, `amount` and a map of `metadata` key optionally it may also contain `name`, `reason` and `providerChannel` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2c%2Foverview for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.b2c_checkout([%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES", metadata: %{ message: "I am here"}}])
         {:ok,
@@ -64,7 +64,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing a `provider(Mpesa,TigoTanzania,Athena)`, `transferType(BusinessBuyGoods,BusinessPayBill, DisburseFundsToBusiness, BusinessToBusinessTransfer)`, `currencyCode` `amount`, `destinationChannel`, `destinationAccount` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fmobile%2Fb2b for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.b2b_checkout(%{provider: "Athena", transferType: "DisburseFundsToBusiness", amount: 10, currencyCode: "KES", destinationChannel: "Mine", destinationAccount: "Mine", metadata: %{ message: "I am here"}})
         {:ok,
@@ -86,7 +86,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing `bankAccount`(a map), `currencyCode`, `amount`, `narration` and a map of `metadata` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fcheckout for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.bank_checkout(%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}})
         {:ok,
@@ -104,7 +104,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Fvalidate for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.bank_validate(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795", otp: "password"})
         {:ok,
@@ -124,10 +124,10 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a list of recipients each containing a map with `currencyCode`, `amount`, `narration` and a map of `metadata` (optional) see the docs at https://build.at-labs.io/docs/payments%2Fbank%2Ftransfer for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.bank_transfer([%{bankAccount: %{accountName: "KCB", accountNumber: "93892892", bankCode: 234001}, amount: 1000.00, currencyCode: "KES", narration: "Payment", metadata: %{detail: "A Bill"}}])
-        
+
         {:ok,
         %{
             "entries": [%{
@@ -140,6 +140,7 @@ defmodule AtEx.Payment do
   """
   defdelegate bank_transfer(map), to: Payments.Bank.Transfer
 
+  @spec card_checkout(map) :: {:error, any} | {:ok, any}
   @doc """
   Card Checkout APIs allow your application to collect money into your Payment Wallet by initiating transactions that deduct money from a customers Debit or Credit Card.
 
@@ -149,7 +150,7 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing either `paymentCard`(a map) or `checkoutToken`, `currencyCode`, `amount`, `narration` and a map of `metadata`(optional) see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fcheckout for how to use these keys
 
-  ## Example 
+  ## Example
 
         iex>AtEx.Payment.card_checkout(%{amount: 1000.00, currencyCode: "KES", narration: "Payment", paymentCard: %{number: "10928873477387", cvvNumber: 253, expiryMonth: 12, expiryYear: 2020, countryCode: "NG", authToken: "jhdguyt6372gsu6q"}})
         {:ok, %{
@@ -166,15 +167,38 @@ defmodule AtEx.Payment do
   ## Parameters
   attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fvalidate for how to use these keys
 
-  ## Example 
+  ## Example
         iex>AtEx.Payment.card_validate(%{transactionId: "ATPid_SampleTxnId123", otp: "password"})
-        
+
         {:ok,
-        %{
+          %{
             "status": "Success",
             "description": "Payment completed successfully",
             "checkoutToken": "ATCdTkn_SampleCdTknId123"
         }}
   """
   defdelegate card_validate(map), to: Payments.Card.Validate
+
+  @doc """
+  Topup stash APIs allow you to move money from a Payment Product to an Africa’s Talking application stash.
+  An application stash is the wallet that funds your service usage expences.
+
+  ## Parameters
+  map: - a map containing:
+  - `productName` Africa’s Talking Payment product to initiate this transaction.
+  - `currencyCode`  3-digit ISO format currency code for the value of this transaction (e.g KES, UGX, USD)
+  - `amount`  Amount - in the provided currency - that the application will be topped up with.
+  - `metadata`  A map of any metadata that you would like us to associate with the request. Use this field to send data that will map notifications to topup stash requests. It will be included in the notification we send once the topup stash request is completed.
+
+  ## Example
+      iex> AtEx.Payment.topup(%{ currencyCode: "KES", amount: 1500, productName: "AtEx", metadata: %{ message: "I am here"}})
+        {:ok,
+          %{
+            "status" => "Success",
+            "description" => "Topped up user stash. New Stash Balance: KES 1500.00",
+            "transactionId" => "ATPid_SampleTxnId123"
+          }
+        }
+  """
+  defdelegate topup(map), to: Payments.TopupStash
 end
