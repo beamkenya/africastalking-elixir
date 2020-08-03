@@ -11,12 +11,14 @@ on:
       - develop
 
 jobs:
-  build:
+  check-lint:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    - name: Create dev file
+      run: mv config/dev.sample.exs config/dev.exs
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
