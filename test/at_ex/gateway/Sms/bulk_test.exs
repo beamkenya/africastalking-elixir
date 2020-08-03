@@ -7,16 +7,8 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   doctest AtEx.Gateway.Sms.Bulk
   alias AtEx.Gateway.Sms.Bulk
 
-  @attr "username="
-
   setup do
     Tesla.Mock.mock(fn
-      %{method: :post, body: @attr} ->
-        %Tesla.Env{
-          status: 400,
-          body: "Request is missing required form field 'to'"
-        }
-
       %{method: :post} ->
         %Tesla.Env{
           status: 201,
@@ -78,9 +70,27 @@ defmodule AtEx.Gateway.Sms.BulkTest do
 
     test "sends_sms/1 should error out without phone number parameter" do
       # run details through our code
-      {:error, result} = Bulk.send_sms(%{})
+      {:error, result} = Bulk.send_sms(%{message: "abcde"})
 
       "Request is missing required form field 'to'" = result.message
+
+      400 = result.status
+    end
+
+    test "sends_sms/1 should error out without message parameter" do
+      # run details through our code
+      {:error, result} = Bulk.send_sms(%{to: "07123456678"})
+
+      "Request is missing required form field 'message'" = result.message
+
+      400 = result.status
+    end
+
+    test "sends_sms/1 should error out without message and phone number parameters" do
+      # run details through our code
+      {:error, result} = Bulk.send_sms(%{})
+
+      "Request is missing required form fields 'to' and 'message'" = result.message
 
       400 = result.status
     end

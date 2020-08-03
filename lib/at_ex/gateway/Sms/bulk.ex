@@ -38,7 +38,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
         }}
   """
   @spec send_sms(map()) :: {:ok, term()} | {:error, term()}
-  def send_sms(attrs) do
+  def send_sms(%{to: _to, message: _msg} = attrs) do
     username = Application.get_env(:at_ex, :username)
 
     params =
@@ -48,6 +48,19 @@ defmodule AtEx.Gateway.Sms.Bulk do
     "/messaging"
     |> post(params)
     |> process_result()
+  end
+
+  def send_sms(%{to: _to}) do
+    {:error, %{status: 400, message: "Request is missing required form field 'message'"}}
+  end
+
+  def send_sms(%{message: _msg}) do
+    {:error, %{status: 400, message: "Request is missing required form field 'to'"}}
+  end
+
+  def send_sms(_) do
+    {:error,
+     %{status: 400, message: "Request is missing required form fields 'to' and 'message'"}}
   end
 
   @doc """
