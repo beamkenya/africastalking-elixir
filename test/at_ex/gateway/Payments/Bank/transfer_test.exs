@@ -2,6 +2,7 @@ defmodule AtEx.Gateway.Payments.Bank.TransferTest do
   @moduledoc false
 
   use ExUnit.Case
+  doctest AtEx.Gateway.Payments.Bank.Transfer
   alias AtEx.Gateway.Payments.Bank.Transfer
 
   setup do
