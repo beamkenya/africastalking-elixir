@@ -2,9 +2,13 @@ name: Elixir CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - develop
+      - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
@@ -16,9 +20,13 @@ jobs:
     - name: Setup elixir
       uses: actions/setup-elixir@v1
       with:
-        elixir-version: '1.9.4' # Define the elixir version [required]
-        otp-version: '22.2' # Define the OTP version [required]
+        elixir-version: '1.9.4'
+        otp-version: '22.2'
     - name: Install Dependencies
       run: mix deps.get
     - name: Run Tests
       run: mix test
+    - name: Check formatting
+      run: mix format --check-formatted
+    - name: Checking compile warnings
+      run: mix compile --warnings-as-errors --force
