@@ -139,4 +139,42 @@ defmodule AtEx.Payment do
         }}
   """
   defdelegate bank_transfer(map), to: Payments.Bank.Transfer
+
+  @doc """
+  Card Checkout APIs allow your application to collect money into your Payment Wallet by initiating transactions that deduct money from a customers Debit or Credit Card.
+
+  ## Config
+  Add `card_checkout_product_name` key to your AtEx `configs`
+
+  ## Parameters
+  attrs: - a map containing either `paymentCard`(a map) or `checkoutToken`, `currencyCode`, `amount`, `narration` and a map of `metadata`(optional) see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fcheckout for how to use these keys
+
+  ## Example 
+
+        iex>AtEx.Payment.card_checkout(%{amount: 1000.00, currencyCode: "KES", narration: "Payment", paymentCard: %{number: "10928873477387", cvvNumber: 253, expiryMonth: 12, expiryYear: 2020, countryCode: "NG", authToken: "jhdguyt6372gsu6q"}})
+        {:ok, %{
+              status: "PendingValidation",
+              description: "Waiting for user input",
+              transactionId: "ATPid_SampleTxnId123"
+            }}
+  """
+  defdelegate card_checkout(map), to: Payments.Card.Checkout
+
+  @doc """
+  Card checkout validation APIs allow your application to validate card checkout charge requests.
+
+  ## Parameters
+  attrs: - a map containing `transactionId` and `otp` see the docs at https://build.at-labs.io/docs/payments%2Fcard%2Fvalidate for how to use these keys
+
+  ## Example 
+        iex>AtEx.Payment.card_validate(%{transactionId: "ATPid_SampleTxnId123", otp: "password"})
+        
+        {:ok,
+        %{
+            "status": "Success",
+            "description": "Payment completed successfully",
+            "checkoutToken": "ATCdTkn_SampleCdTknId123"
+        }}
+  """
+  defdelegate card_validate(map), to: Payments.Card.Validate
 end
