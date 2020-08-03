@@ -27,7 +27,7 @@ defmodule AtEx.Gateway.Payments.Bank.Checkout do
         %{
         "description" => "Payment is pending validation by the user",
         "status" => "PendingValidation",
-        "transactionId" => "ATPid_722a5dbaf1e8be4832614b523810dc29"
+        "transactionId" => "ATPid_0f4b78bf0926b4b05d131550f8fc4f2d"
         }}
   """
   @spec bank_checkout(map()) :: {:ok, term()} | {:error, term()}

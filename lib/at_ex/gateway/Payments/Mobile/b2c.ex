@@ -32,7 +32,7 @@ defmodule AtEx.Gateway.Payments.Mobile.B2c do
             "providerChannel" => "525900",
             "status" => "Queued",
             "transactionFee" => "KES 0.1000",
-            "transactionId" => "ATPid_2b76da39eebd5c6bcc49e5d30c3d0390",
+            "transactionId" => "ATPid_beeb0be6b1bff57ec8f32675fe3f6e72",
             "value" => "KES 10.0000"
             }
         ],

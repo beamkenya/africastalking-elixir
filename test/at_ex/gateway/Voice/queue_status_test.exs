@@ -6,6 +6,7 @@ defmodule AtEx.Gateway.Voice.QueueStatusTest do
 
   import Tesla.Mock
 
+  doctest AtEx.Gateway.Voice.QueueStatus
   alias AtEx.Gateway.Voice.QueueStatus
 
   @attr "username="

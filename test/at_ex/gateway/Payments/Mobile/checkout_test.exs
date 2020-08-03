@@ -2,6 +2,7 @@ defmodule AtEx.Gateway.Payments.Mobile.CheckoutTest do
   @moduledoc false
 
   use ExUnit.Case
+  doctest AtEx.Gateway.Payments.Mobile.Checkout
   alias AtEx.Gateway.Payments.Mobile.Checkout
 
   setup do

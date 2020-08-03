@@ -19,6 +19,7 @@ defmodule AtEx.Gateway.Application do
 
   ## Examples
       iex> AtEx.Gateway.Application.get_data()
+      {:ok, %{"UserData" => %{"balance" => "ZAR -1.3448"}} }
   """
   @spec get_data :: {:ok, map()} | {:error, term()}
   def get_data do

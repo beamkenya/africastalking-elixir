@@ -1,9 +1,10 @@
-defmodule AtEx.Gateway.SmsTest do
+defmodule AtEx.Gateway.PremiumSubscriptionsTest do
   @moduledoc """
   This module holds unit tests for the functions in the SMS gateway
   """
   use ExUnit.Case
 
+  doctest AtEx.Gateway.Sms.PremiumSubscriptions
   alias AtEx.Gateway.Sms.PremiumSubscriptions
 
   @attr "username="
@@ -28,7 +29,7 @@ defmodule AtEx.Gateway.SmsTest do
           body: "Request is missing required form field 'to'"
         }
 
-      %{method: :post} ->
+      %{url: "https://api.sandbox.africastalking.com/version1/subscription/create", method: :post} ->
         %Tesla.Env{
           status: 201,
           body:
@@ -48,6 +49,12 @@ defmodule AtEx.Gateway.SmsTest do
             })
         }
 
+      %{url: "https://api.sandbox.africastalking.com/version1/subscription/delete", method: :post} ->
+        %Tesla.Env{
+          status: 201,
+          body: Jason.encode!(%{"description" => "Succeeded", "status" => "Success"})
+        }
+
       %{method: :get} ->
         %Tesla.Env{
           status: 200,
@@ -65,6 +72,16 @@ defmodule AtEx.Gateway.SmsTest do
                   }
                 ]
               }
+            })
+        }
+
+      _ ->
+        %Tesla.Env{
+          status: 201,
+          body:
+            Jason.encode!(%{
+              "description" => "Success",
+              "token" => "CkTkn_SampleCkTknId123"
             })
         }
     end)

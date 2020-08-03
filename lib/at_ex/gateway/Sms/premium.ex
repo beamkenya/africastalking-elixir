@@ -61,15 +61,20 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   function accepts an map of parameters.
   sent
 
+  ## Config
+  Add `shortcode`, and `keyword` to the AtEx `configs`
+
   ## Parameters
   attrs: - a map containing:
-  - `shortCode` - premium short code mapped to your account
-  - `keyword` - premium keyword under the above short code mapped to your account
   - `phoneNumber` - phone number to be subscribed
+  Check https://build.at-labs.io/docs/sms%2Fpremium_subscriptions%2Fcreate
 
   ## Example
-      iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+2541231111"})
-      {:ok, result}
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+25471231111"})
+      {:ok, 
+        %{
+        "SMSMessageData" => %{"Message" => "Sent to 1/1 Total Cost: ZAR 0.1124", "Recipients" => [%{"cost" => "KES 0.8000", "messageId" => "ATXid_a584c3fd712a00b7bce3c4b7b552ac56", "number" => "+254728833181", "status" => "Success", "statusCode" => 101}]}
+        }}
   """
   @spec create_subscription(map()) :: {:error, any()} | {:ok, any()}
   def create_subscription(%{phoneNumber: phone_number} = attrs) do
@@ -113,8 +118,22 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `lastReceivedId` - (optional) ID of the subscription you believe to be your last. Set it to 0 to for the first time.
 
   ## Example
-      iex> AtEx.Gateway.Sms.PremiumSubscriptions.fetch_subscription()
-      {:ok, result}
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.fetch_subscriptions()
+      {:ok, 
+        %{
+              "SMSMessageData" => %{
+                "Messages" => [
+                  %{
+                    "linkId" => "SampleLinkId123",
+                    "text" => "Hello",
+                    "to" => "28901",
+                    "id" => 15071,
+                    "date" => "2018-03-19T08:34:18.445Z",
+                    "from" => "+254711XXXYYY"
+                  }
+                ]
+              }
+            }}
   """
   @spec fetch_subscriptions() :: {:error, any()} | {:ok, any()}
   def fetch_subscriptions() do
@@ -150,7 +169,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `phoneNumber` - phone number to be unsubscribed
 
   ## Example
-      iex> AtEx.Gateway.Sms.PremiumSubscriptions.delete_subscription(%{ phoneNumber: "+2541231111"})
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.delete_subscription(%{ phoneNumber: "+25471231111"})
       {:ok,  %{"description" => "Succeeded", "status" => "Success"}}
   """
   @spec delete_subscription(map()) :: {:error, any()} | {:ok, any()}
