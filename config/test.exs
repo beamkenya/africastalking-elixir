@@ -14,5 +14,5 @@ config :at_ex,
   b2b_product_name: "AtEx",
   bank_checkout_product_name: "AtEx",
   bank_transfer_product_name: "AtEx",
-  card_checkout_product_name: "AtEx"
+  card_checkout_product_name: "AtEx",
   force_live_url: "No"
