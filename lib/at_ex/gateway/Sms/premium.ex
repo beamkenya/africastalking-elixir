@@ -1,20 +1,14 @@
 defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
-  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
+  import AtEx.Util
+
+  @live_url "https://api.africastalking.com/version1"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
+
   # Checkout token endpoints
   @live_token_url "https://api.africastalking.com/checkout/token"
   @sandbox_token_url "https://api.sandbox.africastalking.com/checkout/token"
-
-  # Using this system for delivery of which URL to use (sandbox or live)
-  # determined by whether we ar in production or development or test
-  # Selection of the live URL can be forced by setting an environment
-  # variable FORCE_TOKEN_LIVE=YES
-  defp get_token_url do
-    cond do
-      Mix.env() == :prod -> @live_token_url
-      System.get_env("FORCE_TOKEN_LIVE") == "YES" -> @live_token_url
-      true -> @sandbox_token_url
-    end
-  end
 
   @doc """
   This function fetches the checkout token from the checkout token endpoint
@@ -32,7 +26,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   def generate_checkout_token(phone_number) do
     # Can't use the default client, since we have a different URL
     token_middleware = [
-      {Tesla.Middleware.BaseUrl, get_token_url()},
+      {Tesla.Middleware.BaseUrl, get_url(@live_token_url, @sandbox_token_url)},
       Tesla.Middleware.FormUrlencoded
     ]
 
@@ -74,8 +68,8 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `phoneNumber` - phone number to be subscribed
 
   ## Example
-      iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+2541231111"})
-      {:ok, result}
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.create_subscription(%{phoneNumber: "+254728833181"})
+      {:ok, %{}}
   """
   @spec create_subscription(map()) :: {:error, any()} | {:ok, any()}
   def create_subscription(%{phoneNumber: phone_number} = attrs) do
@@ -119,11 +113,8 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `lastReceivedId` - (optional) ID of the subscription you believe to be your last. Set it to 0 to for the first time.
 
   ## Example
-  iex> AtEx.Gateway.Sms.create_subscription(%{
-    ...>   shortCode: "1234",
-    ...>   keyword: "keyword",
-    ...> })
-    {:ok, result}
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.fetch_subscriptions()
+      {:ok, %{"SMSMessageData" => %{"Messages" => [%{"date" => "2018-03-19T08:34:18.445Z", "from" => "+254711XXXYYY", "id" => 15071, "linkId" => "SampleLinkId123", "text" => "Hello", "to" => "28901"}]}}}
   """
   @spec fetch_subscriptions() :: {:error, any()} | {:ok, any()}
   def fetch_subscriptions() do
@@ -159,8 +150,8 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `phoneNumber` - phone number to be unsubscribed
 
   ## Example
-      iex> AtEx.Gateway.Sms.delete_subscription(%{ phoneNumber: "+2541231111"})
-      {:ok,  %{"description" => "Succeeded", "status" => "Success"}}
+      iex> AtEx.Gateway.Sms.PremiumSubscriptions.delete_subscription(%{ phoneNumber: "+2541231111"})
+      {:ok, %{"SMSMessageData" => %{"Message" => "Sent to 1/1 Total Cost: ZAR 0.1124", "Recipients" => [%{"cost" => "KES 0.8000", "messageId" => "ATXid_a584c3fd712a00b7bce3c4b7b552ac56", "number" => "+254728833181", "status" => "Success", "statusCode" => 101}]}}}
   """
   @spec delete_subscription(map()) :: {:error, any()} | {:ok, any()}
   def delete_subscription(attrs) do

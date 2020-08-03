@@ -28,7 +28,7 @@ defmodule AtEx.Gateway.Base do
   """
   defmacro __using__(opts) do
     quote do
-      use Tesla
+      use Tesla, docs: false
 
       @config unquote(opts)
 
@@ -37,24 +37,47 @@ defmodule AtEx.Gateway.Base do
       @content_type Application.get_env(:at_ex, :content_type)
 
       plug(Tesla.Middleware.BaseUrl, @config[:url])
-      plug(Tesla.Middleware.FormUrlencoded)
+
+      # The `type` config is to allow the api send `application/json` check https://github.com/teamon/tesla#formats for more info. Needed in requests such as Mobile/checkput
+
+      if @config[:type] && @config[:type] == "json" do
+        plug(Tesla.Middleware.JSON)
+      else
+        plug(Tesla.Middleware.FormUrlencoded)
+      end
 
       plug(Tesla.Middleware.Headers, [
-        {"accept", @accept},
-        {"content-type", @content_type},
-        {"apikey", @key}
+        {"Accept", @accept},
+        {"Content-Type", @content_type},
+        {"apiKey", @key}
       ])
 
       @doc """
       Process results from calling the gateway
       """
-      def process_result(result) do
-        with {:ok, res} <- Jason.decode(result) do
-          {:ok, res}
+
+      def process_result({:ok, %{status: 200} = res}) do
+        if is_map(res.body) do
+          {:ok, res.body}
         else
-          {:error, val} ->
-            {:error, val}
+          Jason.decode(res.body)
         end
+      end
+
+      def process_result({:ok, %{status: 201} = res}) do
+        if is_map(res.body) do
+          {:ok, res.body}
+        else
+          Jason.decode(res.body)
+        end
+      end
+
+      def process_result({:ok, result}) do
+        {:error, %{status: result.status, message: result.body}}
+      end
+
+      def process_result({:error, result}) do
+        {:error, result}
       end
     end
   end

@@ -1,9 +1,14 @@
 defmodule AtEx.Gateway.Sms.Bulk do
+  import AtEx.Util
+
   @moduledoc """
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
   """
-  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
+  @live_url "https://api.africastalking.com/version1"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
 
   @doc """
   This function builds and runs a post request to send an SMS via the Africa's talking SMS endpoint, this
@@ -22,20 +27,14 @@ defmodule AtEx.Gateway.Sms.Bulk do
       attrs
       |> Map.put(:username, username)
 
-    with {:ok, %{status: 201} = res} <- post("/messaging", params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/messaging"
+    |> post(params)
+    |> process_result()
   end
 
   @doc """
   This function makes a get request to fetch an SMS via the Africa's talking SMS endpoint, this
-  function accepts an map of parameters that optionally accepts `lastReceivedId` of the message.
+  function accepts a map of parameters that optionally accepts `lastReceivedId` of the message.
   sent
 
   ## Parameters
