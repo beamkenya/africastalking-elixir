@@ -42,7 +42,6 @@ defmodule AtEx.Gateway.Voice.CallTransferTest do
       }
 
       {:ok, result} = CallTransfer.transfer(transfer_details)
-      IO.inspect(result)
 
       msg = result["callTransferResponse"]
       assert msg["status"] == "Success"
