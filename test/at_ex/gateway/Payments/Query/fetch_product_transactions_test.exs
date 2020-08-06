@@ -65,7 +65,7 @@ defmodule AtEx.Gateway.Payments.Query.FetchProductTransactionsTest do
         })
 
       assert result["status"] == "Success"
-      assert is_map(result["data"])
+      assert is_map(result["responses"])
     end
 
     test "fetch_product_transactions/1 should error out without 'productName' parameter" do
