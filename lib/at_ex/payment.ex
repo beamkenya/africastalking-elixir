@@ -201,4 +201,146 @@ defmodule AtEx.Payment do
         }
   """
   defdelegate topup(map), to: Payments.TopupStash
+
+  @doc """
+  Find a particular payment transaction by sending a HTTP GET request to the following endpoint
+
+  ## Parameters
+  attrs: - a map containing:
+  - `transactionId` - ID of the transaction you would like to find.
+  For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffind_transaction
+
+  ## Example 
+        iex>AtEx.Payment.find_transaction(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795"})
+        {:ok,
+        %{
+        "status" => "Success",
+        "data" => %{
+            "requestMetadata" => %{
+                "reason" => "Testing things..."
+            },
+            "sourceType" => "Wallet",
+            "source" => "PaymentWallet",
+            "provider" => "Mpesa",
+            "destinationType" => "PhoneNumber",
+            "description" => "The service request is processed successfully.",
+            "providerChannel" => "824879",
+            "transactionFee" => "KES 1.0000",
+            "providerRefId" => "SAMPLE_MPESA_CODE",
+            "providerMetadata" => %{
+                "recipientIsRegistered" => "true",
+                "recipientName" => "254724XXXYYY - John Doe"
+            },
+            "status" => "Success",
+            "productName" => "testing",
+            "category" => "MobileB2C",
+            "transactionDate" => "12.05.2018 21:46:13",
+            "destination" => "+254708663158",
+            "value" => "KES 2900.0000",
+            "transactionId" => "ATPid_b9379b671fee8ccf24b2c74f94da0ceb",
+            "creationTime" => "2018-05-12 18:46:12"
+        }
+        }}
+  """
+  defdelegate find_transaction(map), to: Payments.Query.FindTransaction
+
+  @doc """
+  Fetch transactions of a particular payment product by sending a HTTP GET request to the following endpoint
+
+  ## Parameters
+  attrs: - a map containing:
+  - `productName` - The name of the payment product whose transactions you’d like to fetch.
+  - `pageNumber` - The number of the page you’d like to read results from. Please Note: This STARTS from `1` and NOT `0`
+  - `count` - The number of transaction results you would like for this query. Must be `> 1` and `< 1,000`
+  - and optional parameters `startDate`, `endDate`, `category`, `provider`, `status`, `source`, `destination` and `providerChannel`
+  For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffetch_product_transactions
+
+  ## Example 
+        iex>AtEx.Payment.fetch_product_transactions(%{productName: "AtEx", pageNumber: 1, count: 10})
+        {:ok,
+        %{
+        "status" => "Success",
+        "responses" => %{
+            "requestMetadata" => %{
+                "reason" => "Testing things..."
+            },
+            "sourceType" => "Wallet",
+            "source" => "PaymentWallet",
+            "provider" => "Mpesa",
+            "destinationType" => "PhoneNumber",
+            "description" => "The service request is processed successfully.",
+            "providerChannel" => "824879",
+            "transactionFee" => "KES 1.0000",
+            "providerRefId" => "SAMPLE_MPESA_CODE",
+            "providerMetadata" => %{
+                "recipientIsRegistered" => "true",
+                "recipientName" => "254724XXXYYY - John Doe"
+            },
+            "status" => "Success",
+            "productName" => "testing",
+            "category" => "MobileB2C",
+            "transactionDate" => "12.05.2018 21:46:13",
+            "destination" => "+254708663158",
+            "value" => "KES 2900.0000",
+            "transactionId" => "ATPid_b9379b671fee8ccf24b2c74f94da0ceb",
+            "creationTime" => "2018-05-12 18:46:12"
+        }
+        }}
+  """
+  defdelegate fetch_product_transactions(map), to: Payments.Query.FetchProductTransactions
+
+  @doc """
+  Fetch your wallet transactions by sending a HTTP GET request to the following endpoint
+
+  ## Parameters
+  attrs: - a map containing:
+  - `pageNumber` - The number of the page you’d like to read results from. Please Note: This STARTS from `1` and NOT `0`
+  - `count` - The number of transaction results you would like for this query. Must be `> 1` and `< 1,000`
+  - and optional parameters `startDate`, `endDate`, `categories`, `provider`, `status`, `source`, `destination` and `providerChannel`
+  For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffetch_wallet_transactions
+
+  ## Example 
+        iex>AtEx.Payment.fetch_wallet_transactions(%{ pageNumber: 1, count: 10})
+        {:ok,
+        %{
+        "description" => "Success",
+        "responses" => [
+            %{
+            "balance" => "KES 90.0000",
+            "category" => "Debit",
+            "date" => "2020-07-13 13:46:08",
+            "description" => "MobileB2B Payment Request to Mine",
+            "transactionId" => "ATPid_2504d5f5d28256fa264e815518e3ab0d",
+            "value" => "KES 10.0000"
+            },
+            %{
+            "balance" => "KES 90.0000",
+            "category" => "Debit",
+            "date" => "2020-07-10 18:50:22",
+            "description" => "MobileB2C Payment Request to +254724540000",
+            "transactionId" => "ATPid_5e635fa1099b4c7f69e63a0cbc3120c4",
+            "value" => "KES 10.0000"
+            },
+            %{
+            "balance" => "KES 90.0000",
+            "category" => "Debit",
+            "date" => "2020-07-01 15:18:33",
+            "description" => "MobileB2C Payment Request to +254724540000",
+            "transactionId" => "ATPid_beeb0be6b1bff57ec8f32675fe3f6e72",
+            "value" => "KES 10.0000"
+            }
+        ],
+        "status" => "Success"
+        }}
+  """
+  defdelegate fetch_wallet_transactions(map), to: Payments.Query.FetchWalletTransactions
+
+  @doc """
+  Find a particular payment transaction by sending a HTTP GET request to the following endpoint
+
+  ## Example 
+        iex>AtEx.Gateway.Payments.Query.WalletBalance.balance()
+        {:ok, %{"balance" => "KES 90.0000", "status" => "Success"}}
+  """
+  defdelegate balance(), to: Payments.Query.WalletBalance
 end
