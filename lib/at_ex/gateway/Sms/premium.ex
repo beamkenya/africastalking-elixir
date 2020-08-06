@@ -91,15 +91,9 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
           |> Map.put(:keyword, keyword)
           |> Map.put(:checkoutToken, token)
 
-        with {:ok, %{status: 201} = res} <- post("/subscription/create", params) do
-          {:ok, Jason.decode!(res.body)}
-        else
-          {:ok, val} ->
-            {:error, %{status: val.status, message: val.body}}
-
-          {:error, message} ->
-            {:error, message}
-        end
+        "/subscription/create"
+        |> post(params)
+        |> process_result
 
       {:error, reason} ->
         {:error, reason}
@@ -116,6 +110,7 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
   - `shortCode` - premium short code mapped to your account
   - `keyword` - premium keyword under the above short code mapped to your account
   - `lastReceivedId` - (optional) ID of the subscription you believe to be your last. Set it to 0 to for the first time.
+  For more info, look at the docs here https://build.at-labs.io/docs/sms%2Fpremium_subscriptions%2Ffetch
 
   ## Example
       iex> AtEx.Gateway.Sms.PremiumSubscriptions.fetch_subscriptions()
@@ -147,15 +142,9 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
       |> Map.put(:shortCode, shortcode)
       |> Map.put(:keyword, keyword)
 
-    with {:ok, %{status: 200} = res} <- get("/subscription", query: params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/subscription"
+    |> get(query: params)
+    |> process_result
   end
 
   @doc """
@@ -184,14 +173,8 @@ defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
       |> Map.put(:shortCode, shortcode)
       |> Map.put(:keyword, keyword)
 
-    with {:ok, %{status: 201} = res} <- post("/subscription/delete", params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/subscription/delete"
+    |> post(params)
+    |> process_result
   end
 end

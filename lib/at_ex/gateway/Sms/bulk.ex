@@ -16,8 +16,7 @@ defmodule AtEx.Gateway.Sms.Bulk do
   sent
 
   ## Parameters
-  attrs: - a map containing a `to` and `message` key optionally it may also contain `from`, bulk_sms, enqueue, key_word
-  link_id and retry_hours keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
+  attrs: - a map containing a `to` and `message` key optionally it may also contain `from`, `bulkSMSMode`, `enqueue`, `keyword`, `linkId` and `retryDurationInHours` keys, see the docs at https://build.at-labs.io/docs/sms%2Fsending for how to use these keys
 
   ## Examples
         iex> AtEx.Sms.send_sms(%{to: "+254721978097", message: "Howdy"})
@@ -101,14 +100,8 @@ defmodule AtEx.Gateway.Sms.Bulk do
       |> Map.put(:username, username)
       |> Map.to_list()
 
-    with {:ok, %{status: 200} = res} <- get("/messaging", query: params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/messaging"
+    |> get(query: params)
+    |> process_result
   end
 end
