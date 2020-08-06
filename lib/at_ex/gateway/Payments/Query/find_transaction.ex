@@ -66,6 +66,6 @@ defmodule AtEx.Gateway.Payments.Query.FindTransaction do
   end
 
   def find_transaction(_) do
-    {:error, %{status: 400, message: "Request is missing required form fields 'transactionId'"}}
+    {:error, %{status: 400, message: "Request is missing required form field 'transactionId'"}}
   end
 end
