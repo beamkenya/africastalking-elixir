@@ -23,7 +23,7 @@ defmodule AtEx.Gateway.Payments.Query.FetchProductTransactionsTest do
           body:
             Jason.encode!(%{
               "status" => "Success",
-              "data" => %{
+              "responses" => %{
                 "requestMetadata" => %{
                   "reason" => "Testing things..."
                 },

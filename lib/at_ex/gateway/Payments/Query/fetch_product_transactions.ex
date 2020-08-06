@@ -28,7 +28,7 @@ defmodule AtEx.Gateway.Payments.Query.FetchProductTransactions do
         {:ok,
         %{
         "status" => "Success",
-        "data" => %{
+        "responses" => %{
             "requestMetadata" => %{
                 "reason" => "Testing things..."
             },
