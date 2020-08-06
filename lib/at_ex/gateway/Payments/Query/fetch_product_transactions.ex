@@ -1,6 +1,6 @@
 defmodule AtEx.Gateway.Payments.Query.FetchProductTransactions do
   @moduledoc """
-  Fetch transactions of a particular payment product by sending a HTTP GET request to the following endpoint:
+  Fetch transactions of a particular payment product by sending a HTTP GET request to the following endpoint
   """
 
   import AtEx.Util
@@ -13,14 +13,14 @@ defmodule AtEx.Gateway.Payments.Query.FetchProductTransactions do
   use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url), type: "json"
 
   @doc """
-  Fetch transactions of a particular payment product by sending a HTTP GET request to the following endpoint:
+  Fetch transactions of a particular payment product by sending a HTTP GET request to the following endpoint
 
   ## Parameters
   attrs: - a map containing:
   - `productName` - The name of the payment product whose transactions you’d like to fetch.
   - `pageNumber` - The number of the page you’d like to read results from. Please Note: This STARTS from `1` and NOT `0`
   - `count` - The number of transaction results you would like for this query. Must be `> 1` and `< 1,000`
-  - and optional parameters `startDate`, `endDate`, `categorty`, `provider`, `status`, `source`, `destination` and `providerChannel`
+  - and optional parameters `startDate`, `endDate`, `category`, `provider`, `status`, `source`, `destination` and `providerChannel`
   For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffetch_product_transactions
 
   ## Example 

@@ -1,6 +1,6 @@
 defmodule AtEx.Gateway.Payments.Query.FindTransaction do
   @moduledoc """
-  Find a particular payment transaction by sending a HTTP GET request to the following endpoint:
+  Find a particular payment transaction by sending a HTTP GET request to the following endpoint
   """
 
   import AtEx.Util
@@ -13,7 +13,7 @@ defmodule AtEx.Gateway.Payments.Query.FindTransaction do
   use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url), type: "json"
 
   @doc """
-  Find a particular payment transaction by sending a HTTP GET request to the following endpoint:
+  Find a particular payment transaction by sending a HTTP GET request to the following endpoint
 
   ## Parameters
   attrs: - a map containing:

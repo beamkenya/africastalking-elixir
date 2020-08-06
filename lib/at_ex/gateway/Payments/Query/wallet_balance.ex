@@ -13,7 +13,7 @@ defmodule AtEx.Gateway.Payments.Query.WalletBalance do
   use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url), type: "json"
 
   @doc """
-  Find a particular payment transaction by sending a HTTP GET request to the following endpoint:
+  Find a particular payment transaction by sending a HTTP GET request to the following endpoint
 
   ## Example 
         iex>AtEx.Gateway.Payments.Query.WalletBalance.balance()

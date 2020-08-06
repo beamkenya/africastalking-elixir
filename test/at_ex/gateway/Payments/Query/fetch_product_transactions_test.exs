@@ -8,15 +8,8 @@ defmodule AtEx.Gateway.Payments.Query.FetchProductTransactionsTest do
   doctest AtEx.Gateway.Payments.Query.FetchProductTransactions
   alias AtEx.Gateway.Payments.Query.FetchProductTransactions
 
-  @attr "%{}"
   setup do
     mock(fn
-      %{method: :get, body: @attr} ->
-        %Tesla.Env{
-          status: 400,
-          body: "The request is missing required member 'transactionId'"
-        }
-
       %{method: :get} ->
         %Tesla.Env{
           status: 200,

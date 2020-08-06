@@ -8,7 +8,6 @@ defmodule AtEx.Gateway.Payments.Query.FetchWalletTransactionsTest do
   doctest AtEx.Gateway.Payments.Query.FetchWalletTransactions
   alias AtEx.Gateway.Payments.Query.FetchWalletTransactions
 
-  @attr "%{}"
   setup do
     mock(fn
       %{method: :get} ->
@@ -51,8 +50,8 @@ defmodule AtEx.Gateway.Payments.Query.FetchWalletTransactionsTest do
     :ok
   end
 
-  describe "Fetch Products Trasactions" do
-    test "fetch_wallet_transactions/1 should find a particular product transaction" do
+  describe "Fetch Wallet Trasactions" do
+    test "fetch_wallet_transactions/1 should find a particular wallet transaction" do
       {:ok, result} =
         FetchWalletTransactions.fetch_wallet_transactions(%{
           pageNumber: 1,
