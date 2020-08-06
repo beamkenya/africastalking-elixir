@@ -100,14 +100,8 @@ defmodule AtEx.Gateway.Sms.Bulk do
       |> Map.put(:username, username)
       |> Map.to_list()
 
-    with {:ok, %{status: 200} = res} <- get("/messaging", query: params) do
-      {:ok, Jason.decode!(res.body)}
-    else
-      {:ok, val} ->
-        {:error, %{status: val.status, message: val.body}}
-
-      {:error, message} ->
-        {:error, message}
-    end
+    "/messaging"
+    |> get(query: params)
+    |> process_result
   end
 end
