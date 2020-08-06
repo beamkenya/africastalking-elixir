@@ -21,7 +21,7 @@ defmodule AtEx.Voice do
   ## Example
       iex> AtEx.Voice.call(%{
       ...>   to: "+254728907896",
-      ...>   from: "+254728900922",
+    ...>   from: "+254728900922",
       ...> })
       {:ok, result}
   """
@@ -42,7 +42,7 @@ defmodule AtEx.Voice do
         iex> AtEx.Voice.status(%{
         ...>   phoneNumbers: "+254728833180, +254728907896"
         ...> })
-        {:ok, 
+        {:ok,
         %{
               "entries" => [
                 %{
@@ -61,4 +61,25 @@ defmodule AtEx.Voice do
             }}
   """
   defdelegate status(map), to: Voice.QueueStatus
+
+  @doc """
+  This function makes a POST request to transfer a call to another number in the Africa's talking call endpoint, this
+  function accepts a map of parameters.
+  sent
+
+  ## Parameters
+  attrs: - a map containing:
+  - `sessionId` - Session Id of the ongoing call, it must have two legs
+  - `phoneNumber` - Phone Number to transfer the call to.
+  - `callLeg` - (optional) Call leg to transfer the call to either caller or callee(Defaults to callee)
+  - `holdMusicUrl` - (optional) The url of the media file to be played when the user is on hold. Don’t forget to start with http://
+
+  ## Example
+      iex> AtEx.Voice.transfer(%{
+      ...>   sessionId: "ATVId_47ef478e918923e7b2d0921ebd5b66a6",
+      ...>   phoneNumber: "+254728900922",
+      ...> })
+      {:ok, result}
+  """
+  defdelegate transfer(map), to: Voice.CallTransfer
 end
