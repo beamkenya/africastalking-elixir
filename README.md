@@ -2,7 +2,7 @@
 
 # AtEx
 
-> An API Wrapper for the Africas Talking API
+> An API Wrapper for the Africas Talking API https://africastalking.com/
 
 ## Table of contents
 
@@ -33,7 +33,7 @@ Available in Hex, the package can be installed by adding `at_ex` to your list of
 ```elixir
 def deps do
   [
-    {:at_ex, "~> 0.1.0"}
+    {:at_ex, "~> 0.20.19"}
   ]
 end
 ```
@@ -51,7 +51,9 @@ end
 The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
 
 ### Quick examples
+
 #### Sending SMS
+
 ```elixir
     iex> AtEx.Sms.send_sms(%{to: "+254728833181", message: "Howdy"})
     {:ok,
@@ -72,6 +74,7 @@ The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
 ```
 
 #### Payment Mobile checkout
+
 ```elixir
     iex>AtEx.Payment.mobile_checkout(%{phoneNumber: "254724540000", amount: 10, currencyCode: "KES"})
     %{
