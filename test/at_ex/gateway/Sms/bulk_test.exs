@@ -4,18 +4,11 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   """
   use ExUnit.Case
 
+  doctest AtEx.Gateway.Sms.Bulk
   alias AtEx.Gateway.Sms.Bulk
-
-  @attr "username="
 
   setup do
     Tesla.Mock.mock(fn
-      %{method: :post, body: @attr} ->
-        %Tesla.Env{
-          status: 400,
-          body: "Request is missing required form field 'to'"
-        }
-
       %{method: :post} ->
         %Tesla.Env{
           status: 201,
@@ -27,7 +20,7 @@ defmodule AtEx.Gateway.Sms.BulkTest do
                   %{
                     "cost" => "KES 0.8000",
                     "messageId" => "ATXid_a584c3fd712a00b7bce3c4b7b552ac56",
-                    "number" => "+254728833181",
+                    "number" => "+254721978097",
                     "status" => "Success",
                     "statusCode" => 101
                   }
@@ -63,7 +56,7 @@ defmodule AtEx.Gateway.Sms.BulkTest do
   describe "Sms Gateway" do
     test "sends_sms/1 should send sms with required parameters" do
       # make message details
-      send_details = %{to: "+254728833181", message: "new music"}
+      send_details = %{to: "+254721978097", message: "new music"}
 
       # run details through our code
       {:ok, result} = Bulk.send_sms(send_details)
@@ -77,9 +70,27 @@ defmodule AtEx.Gateway.Sms.BulkTest do
 
     test "sends_sms/1 should error out without phone number parameter" do
       # run details through our code
-      {:error, result} = Bulk.send_sms(%{})
+      {:error, result} = Bulk.send_sms(%{message: "abcde"})
 
       "Request is missing required form field 'to'" = result.message
+
+      400 = result.status
+    end
+
+    test "sends_sms/1 should error out without message parameter" do
+      # run details through our code
+      {:error, result} = Bulk.send_sms(%{to: "07123456678"})
+
+      "Request is missing required form field 'message'" = result.message
+
+      400 = result.status
+    end
+
+    test "sends_sms/1 should error out without message and phone number parameters" do
+      # run details through our code
+      {:error, result} = Bulk.send_sms(%{})
+
+      "Request is missing required form fields 'to' and 'message'" = result.message
 
       400 = result.status
     end

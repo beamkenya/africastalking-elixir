@@ -1,9 +1,14 @@
 defmodule AtEx.Gateway.Application do
+  import AtEx.Util
+
   @moduledoc """
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   Application Data endpoint, use it to POST and GET requests to the Application endpoint
   """
-  use AtEx.Gateway.Base, url: "https://api.sandbox.africastalking.com/version1"
+  @live_url "https://api.africastalking.com/version1"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1"
+
+  use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
 
   @doc """
   Collects application data from Africas Talking endpoint, Use this function to collect
@@ -14,6 +19,7 @@ defmodule AtEx.Gateway.Application do
 
   ## Examples
       iex> AtEx.Gateway.Application.get_data()
+      {:ok, %{"UserData" => %{"balance" => "ZAR -1.3448"}} }
   """
   @spec get_data :: {:ok, map()} | {:error, term()}
   def get_data do
