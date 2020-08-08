@@ -210,7 +210,7 @@ defmodule AtEx.Payment do
   - `transactionId` - ID of the transaction you would like to find.
   For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffind_transaction
 
-  ## Example 
+  ## Example
         iex>AtEx.Payment.find_transaction(%{transactionId: "ATPid_a58b61dc2bf556ff9c4b16e9f6e40795"})
         {:ok,
         %{
@@ -255,7 +255,7 @@ defmodule AtEx.Payment do
   - and optional parameters `startDate`, `endDate`, `category`, `provider`, `status`, `source`, `destination` and `providerChannel`
   For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffetch_product_transactions
 
-  ## Example 
+  ## Example
         iex>AtEx.Payment.fetch_product_transactions(%{productName: "AtEx", pageNumber: 1, count: 10})
         {:ok,
         %{
@@ -299,7 +299,7 @@ defmodule AtEx.Payment do
   - and optional parameters `startDate`, `endDate`, `categories`, `provider`, `status`, `source`, `destination` and `providerChannel`
   For more on how to use these keys https://build.at-labs.io/docs/payments%2Fquery%2Ffetch_wallet_transactions
 
-  ## Example 
+  ## Example
         iex>AtEx.Payment.fetch_wallet_transactions(%{ pageNumber: 1, count: 10})
         {:ok,
         %{
@@ -338,9 +338,33 @@ defmodule AtEx.Payment do
   @doc """
   Find a particular payment transaction by sending a HTTP GET request to the following endpoint
 
-  ## Example 
+  ## Example
         iex>AtEx.Gateway.Payments.Query.WalletBalance.balance()
         {:ok, %{"balance" => "KES 90.0000", "status" => "Success"}}
   """
   defdelegate balance(), to: Payments.Query.WalletBalance
+
+  @doc """
+  Wallet transfer APIs allow you to transfer money from one Payment Product to another Payment Product
+  hosted on Africa’s Talking.
+  ## Parameters
+  map: - a map containing:
+  - `productName` Africa’s Talking Payment product to initiate this transaction.
+  - `targetProductCode` Unique product code of the Africa’s Talking Payment Product to transfer the funds to.
+  - `currencyCode`  3-digit ISO format currency code for the value of this transaction (e.g KES, UGX, USD)
+  - `amount`  Amount - in the provided currency - that the application will be topped up with.
+  - `metadata`  A map of any metadata that you would like us to associate with the request. Use this field to send data that will map notifications to topup stash requests. It will be included in the notification we send once the topup stash request is completed.
+
+  ## Example
+
+      iex> AtEx.Payment.transfer(%{ currencyCode: "KES", amount: 1500.00, productName: "AtEx", targetProductCode: 564,  metadata: %{ message: "Electricity Bills"}})
+            {:ok,
+              %{
+                "status" => "Success",
+                "description" => "Transfered funds to sandbox [TestProduct]",
+                "transactionId" => "ATPid_SampleTxnId123"
+              }
+            }
+  """
+  defdelegate transfer(map), to: Payments.WalletTransfer
 end
