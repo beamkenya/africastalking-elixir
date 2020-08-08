@@ -1,4 +1,4 @@
-[badges][badges] [badges]
+[![Actions Status](https://github.com/beamkenya/africastalking-elixir/workflows/Elixir%20CI/badge.svg)](https://github.com/beamkenya/africastalking-elixir/actions)   [badges] [badges]
 
 # AtEx
 
