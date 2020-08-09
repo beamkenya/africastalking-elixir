@@ -4,7 +4,7 @@ defmodule AtEx.MixProject do
   def project do
     [
       app: :at_ex,
-      version: "0.20.19",
+      version: "0.20.20",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -40,8 +40,11 @@ defmodule AtEx.MixProject do
     [
       # This option is only needed when you don't want to use the OTP application name
       name: "at_ex",
+      maintainers: ["Paul Oguda", "Magak Emmanuel", "Zacck Osiemo", "Tracey Onim", "Sigu Magwa"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/elixirkenya/africastalking-elixir"}
+      links: %{"GitHub" => "https://github.com/elixirkenya/africastalking-elixir"},
+      source_url: "https://github.com/elixirkenya/africastalking-elixir",
+      homepage_url: "https://github.com/elixirkenya/africastalking-elixir"
     ]
   end
 end
