@@ -111,6 +111,17 @@ If you don't see your idea listed, [Open an issue](https://github.com/beamkenya/
 
 Check the [Contribution guide](contributing.md) on how to contribute.
 
+## Maintainers
+The current maintainers of the project are:
+1. [Tracey Onim](https://github.com/TraceyOnim)
+2. [Manuel Magak](https://github.com/manuelgeek)
+3. [Paul Oguda](https://github.com/kamalogudah)
+4. [Sigu Magwa](https://github.com/sigu)
+
+## Past Maintainers
+1. [Zacck Osiemo](https://github.com/zacck) Thanks for kicking off the project :wink:.
+
+
 ## Licence
 
 AtEx is released under [MIT License](https://github.com/appcues/exsentry/blob/master/LICENSE.txt)
