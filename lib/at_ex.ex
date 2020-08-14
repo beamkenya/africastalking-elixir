@@ -14,23 +14,6 @@ defmodule AtEx do
   - Voice
   - Payment
   - IoT
-
-  ## Getting Started and Installation
-  To set up first of all you need to add a `config: at_ex` in either your `config/prod.exs` for when you are going live
-  and `config/dev.exs` for testing in the sandbox.
-  The `config: at_ex`should be as below:
-
-  ## Example Config
-  config/dev.exs
-     `config :at_ex,
-      api_key: "YOURSANDBOXAPIKEY",
-      username: "YOURSANDBOXUSERNAME"
-      `
-  config/prod.exs
-     `config :at_ex,
-      api_key: "YOURLIVEAPIKEY",
-      username: "YOURLIVEUSERNAME"
-      `
   """
   alias AtEx.Gateway.{
     Airtime,
