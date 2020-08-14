@@ -23,6 +23,7 @@ defmodule AtEx.Gateway.Payments.TopupStash do
   - `metadata`  A map of any metadata that you would like us to associate with the request. Use this field to send data that will map notifications to topup stash requests. It will be included in the notification we send once the topup stash request is completed.
 
   ## Example
+
       iex> AtEx.Gateway.Payments.TopupStash.topup(%{ currencyCode: "KES", amount: 1500, productName: "AtEx",  metadata: %{ message: "I am here"}})
       {:ok,
         %{
