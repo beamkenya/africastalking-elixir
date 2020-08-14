@@ -1,4 +1,8 @@
 defmodule AtEx.Gateway.Voice.UploadMedia do
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Voice API endpoint tfor uploading media file
+  """
+
   import AtEx.Util
 
   @live_url "https://voice.africastalking.com"
