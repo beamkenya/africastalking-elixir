@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/beamkenya/africastalking-elixir/workflows/Elixir%20CI/badge.svg)](https://github.com/beamkenya/africastalking-elixir/actions)   [badges] [badges]
+[![Actions Status](https://github.com/beamkenya/africastalking-elixir/workflows/Elixir%20CI/badge.svg)](https://github.com/beamkenya/africastalking-elixir/actions)   ![Hex.pm](https://img.shields.io/hexpm/v/at_ex) ![Hex.pm](https://img.shields.io/hexpm/dt/at_ex)
 
 # AtEx
 
