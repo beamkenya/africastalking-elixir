@@ -1,4 +1,8 @@
 defmodule AtEx.Gateway.Sms.PremiumSubscriptions do
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API Premium SMS endpoint, complete a premium sms create subscription request, incrementally fetch your premium sms subscriptions, delete a premium sms subscription
+  """
+
   import AtEx.Util
 
   @live_url "https://api.africastalking.com/version1"

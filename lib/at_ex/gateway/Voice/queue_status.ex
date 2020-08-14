@@ -1,4 +1,8 @@
 defmodule AtEx.Gateway.Voice.QueueStatus do
+  @moduledoc """
+  This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking Voice API endpoint to queueing calls
+  """
+
   import AtEx.Util
 
   @live_url "https://voice.africastalking.com"
