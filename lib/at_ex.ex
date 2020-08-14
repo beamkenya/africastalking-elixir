@@ -1,25 +1,6 @@
 defmodule AtEx do
   @moduledoc """
   AtEx is an Elixir Wrapper for the Africas Talking Api
-
-  Use this library to handle interaction with the Africas Talking API end points,
-  It is most useful for
-  - Consuming incoming events that have been parsed
-  - Building valid responses
-
-  This is in development, currently the following parts of the API are working:
-  - SMS (Non Premium Sms)
-  - USSD
-  - Airtime
-  - Application
-
-  ## Getting Started
-  Configuration
-    config :at_ex,
-      api_key: "YOURAPIKEY",
-      content_type: "application/x-www-form-urlencoded",
-      accept: "application/json",
-      username: "YOURUSERNAME"
   """
   alias AtEx.Gateway.{
     Airtime,
