@@ -4,8 +4,6 @@ use Mix.Config
 
 config :at_ex,
   api_key: "===INSERT AFRICAS_TALKING_API_KEY HERE ===",
-  content_type: "application/x-www-form-urlencoded",
-  accept: "application/json",
   username: "sandbox",
   stk_product_name: "AtEx",
   b2c_product_name: "AtEx",

@@ -50,12 +50,12 @@ end
 - Add the **api key** in the `api_key:`value in the `config/dev.exs` created above.
 
 ## Example Configuration setup
+Below is an example configuration for `dev.exs` this is suitable for testing with the sandbox:
+
 ``` elixir
 config :at_ex,
-  api_key: "===INSERT AFRICAS_TALKING_API_KEY HERE ===",
-  content_type: "application/x-www-form-urlencoded",
-  accept: "application/json",
-  username: "sandbox", #change to live username for prod.ex
+  api_key: "===INSERT AFRICAS_TALKING_SANDBOX_API_KEY HERE ===",
+  username: "sandbox", #change to live username if you want to use the live endpoint while in development
   stk_product_name: "AtEx", #Add your specific product name.
   b2c_product_name: "AtEx",
   b2b_product_name: "AtEx",
@@ -64,6 +64,22 @@ config :at_ex,
   card_checkout_product_name: "AtEx",
   # When changed to "YES" one will use the live endpoint url when in development
   force_live_url: "NO"
+```
+
+Below is an example configuration for `prod.exs` this is when you go live:
+
+
+``` elixir
+config :at_ex,
+  api_key: "===INSERT AFRICAS_TALKING_LIVE_API_KEY HERE ===",
+  username: "LIVE_USERNAME",
+  stk_product_name: "AtEx", #Add your specific product name.
+  b2c_product_name: "AtEx",
+  b2b_product_name: "AtEx",
+  bank_checkout_product_name: "AtEx",
+  bank_transfer_product_name: "AtEx",
+  card_checkout_product_name: "AtEx"
+
 ```
 
 
@@ -76,7 +92,7 @@ The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
 #### Sending SMS
 
 ```elixir
-    iex> AtEx.Sms.send_sms(%{to: "+254728833181", message: "Howdy"})
+    iex> AtEx.Sms.send_sms(%{to: "+254722000000", message: "Howdy"})
     {:ok,
     %{
         "SMSMessageData" => %{
@@ -85,7 +101,7 @@ The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
         %{
             "cost" => "KES 0.8000",
             "messageId" => "ATXid_96e52a761a82c1bad58e885109224aad",
-            "number" => "+254728833181",
+            "number" => "+254722000000",
             "status" => "Success",
             "statusCode" => 101
         }
