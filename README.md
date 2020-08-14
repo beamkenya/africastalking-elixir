@@ -1,4 +1,6 @@
-[![Actions Status](https://github.com/beamkenya/africastalking-elixir/workflows/Elixir%20CI/badge.svg)](https://github.com/beamkenya/africastalking-elixir/actions)   ![Hex.pm](https://img.shields.io/hexpm/v/at_ex) ![Hex.pm](https://img.shields.io/hexpm/dt/at_ex)
+<p align="left"><img src="assets/logo.jpg" width="170"></p>
+
+[![Actions Status](https://github.com/beamkenya/africastalking-elixir/workflows/Elixir%20CI/badge.svg)](https://github.com/beamkenya/africastalking-elixir/actions) &nbsp;  ![Hex.pm](https://img.shields.io/hexpm/v/at_ex) &nbsp; ![Hex.pm](https://img.shields.io/hexpm/dt/at_ex)
 
 # AtEx
 
