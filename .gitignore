@@ -25,3 +25,4 @@ at_ex-*.tar
 
 /config/dev.exs
 /.vscode
+config/prod.exs

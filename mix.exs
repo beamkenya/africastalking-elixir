@@ -11,7 +11,16 @@ defmodule AtEx.MixProject do
       description: description(),
       package: package(),
       name: "AtEx",
-      source_url: "https://github.com/elixirkenya/africastalking-elixir"
+      source_url: "https://github.com/elixirkenya/africastalking-elixir",
+      docs: [
+        # The main page in the docs
+        main: "readme",
+        canonical: "http://hexdocs.pm/at_ex",
+        source_url: "https://github.com/beamkenya/africastalking-elixir",
+        logo: "assets/logo.jpg",
+        assets: "assets",
+        extras: ["README.md"]
+      ]
     ]
   end
 
