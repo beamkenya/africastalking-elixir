@@ -35,7 +35,7 @@ Available in Hex, the package can be installed by adding `at_ex` to your list of
 ```elixir
 def deps do
   [
-    {:at_ex, "~> 0.20.20"}
+    {:at_ex, "~> 0.20.21"}
   ]
 end
 ```
