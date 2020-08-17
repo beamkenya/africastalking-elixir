@@ -4,7 +4,7 @@ defmodule AtEx.MixProject do
   def project do
     [
       app: :at_ex,
-      version: "0.20.20",
+      version: "0.20.21",
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
