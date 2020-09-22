@@ -35,7 +35,7 @@ Available in Hex, the package can be installed by adding `at_ex` to your list of
 ```elixir
 def deps do
   [
-    {:at_ex, "~> 0.20.20"}
+    {:at_ex, "~> 0.20.21"}
   ]
 end
 ```
@@ -51,6 +51,8 @@ end
 - For sandbox, set the `sandbox` key to `true`
 
 ## Example Configuration setup
+Below is an example configuration for `dev.exs` this is suitable for testing with the sandbox:
+
 ``` elixir
 config :at_ex,
   api_key: "===INSERT AFRICAS_TALKING_API_KEY HERE ===",
@@ -65,6 +67,24 @@ config :at_ex,
   card_checkout_product_name: "AtEx"
 ```
 
+Below is an example configuration for `prod.exs` this is when you go live:
+
+
+``` elixir
+config :at_ex,
+  api_key: "===INSERT AFRICAS_TALKING_LIVE_API_KEY HERE ===",
+  username: "LIVE_USERNAME",
+  # When changed to "false" one will use the live endpoint url
+  sandbox: false,
+  stk_product_name: "AtEx", #Add your specific product name.
+  b2c_product_name: "AtEx",
+  b2b_product_name: "AtEx",
+  bank_checkout_product_name: "AtEx",
+  bank_transfer_product_name: "AtEx",
+  card_checkout_product_name: "AtEx"
+
+```
+
 
 ## Documentation
 
@@ -75,7 +95,7 @@ The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
 #### Sending SMS
 
 ```elixir
-    iex> AtEx.Sms.send_sms(%{to: "+254728833181", message: "Howdy"})
+    iex> AtEx.Sms.send_sms(%{to: "+254722000000", message: "Howdy"})
     {:ok,
     %{
         "SMSMessageData" => %{
@@ -84,7 +104,7 @@ The docs can be found at [https://hexdocs.pm/at_ex](https://hexdocs.pm/at_ex).
         %{
             "cost" => "KES 0.8000",
             "messageId" => "ATXid_96e52a761a82c1bad58e885109224aad",
-            "number" => "+254728833181",
+            "number" => "+254722000000",
             "status" => "Success",
             "statusCode" => 101
         }
