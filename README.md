@@ -35,7 +35,7 @@ Available in Hex, the package can be installed by adding `at_ex` to your list of
 ```elixir
 def deps do
   [
-    {:at_ex, "~> 0.20.21"}
+    {:at_ex, "~> 0.20.22"}
   ]
 end
 ```
@@ -48,22 +48,23 @@ end
 - Go to [Africas Talking](https://account.africastalking.com/auth/register) to register for an account.
 - On signing up go to the `https://account.africastalking.com/apps/sandbox` to get an **api key**
 - Add the **api key** in the `api_key:`value in the `config/dev.exs` created above.
+- For sandbox, set the `sandbox` key to `true`
 
 ## Example Configuration setup
 Below is an example configuration for `dev.exs` this is suitable for testing with the sandbox:
 
 ``` elixir
 config :at_ex,
-  api_key: "===INSERT AFRICAS_TALKING_SANDBOX_API_KEY HERE ===",
-  username: "sandbox", #change to live username if you want to use the live endpoint while in development
-  stk_product_name: "AtEx", #Add your specific product name.
+  api_key: "===INSERT AFRICAS_TALKING_API_KEY HERE ===",
+  # When changed to "false" one will use the live endpoint url
+  sandbox: true,
+  username: "sandbox",
+  stk_product_name: "AtEx",
   b2c_product_name: "AtEx",
   b2b_product_name: "AtEx",
   bank_checkout_product_name: "AtEx",
   bank_transfer_product_name: "AtEx",
-  card_checkout_product_name: "AtEx",
-  # When changed to "YES" one will use the live endpoint url when in development
-  force_live_url: "NO"
+  card_checkout_product_name: "AtEx"
 ```
 
 Below is an example configuration for `prod.exs` this is when you go live:
@@ -73,6 +74,8 @@ Below is an example configuration for `prod.exs` this is when you go live:
 config :at_ex,
   api_key: "===INSERT AFRICAS_TALKING_LIVE_API_KEY HERE ===",
   username: "LIVE_USERNAME",
+  # When changed to "false" one will use the live endpoint url
+  sandbox: false,
   stk_product_name: "AtEx", #Add your specific product name.
   b2c_product_name: "AtEx",
   b2b_product_name: "AtEx",
