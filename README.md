@@ -43,7 +43,7 @@ end
 ## Configuration
 
 - Create a `dev.exs` file under the `config` folder in the root of the project if you do not have it. like `touch config/dev.exs` to setup configs for development environment i.e, sandbox credentials check sample configuration below.
-- Create a `prod.exs` file under the `config` folder in the root of the project if you dont have it. like `touch config/prod.exs` to setup `at_ex` configs for production environment i.e, live credentials check sample configuration below.
+- Create a `prod.exs` file under the `config` folder in the root of the project if you dont have it. like `touch config/prod.exs` to setup `at_ex` configs for production environment i.e, live credentials. It is recommended that you also add `tesla` configuration, at least for your live environment. check sample configuration below.
 - Copy the contents of `dev.sample.exs` into the `dev.exs` created above.
 - Go to [Africas Talking](https://account.africastalking.com/auth/register) to register for an account.
 - On signing up go to the `https://account.africastalking.com/apps/sandbox` to get an **api key**
@@ -83,6 +83,7 @@ config :at_ex,
   bank_transfer_product_name: "AtEx",
   card_checkout_product_name: "AtEx"
 
+config :tesla, adapter: Tesla.Adapter.Hackney
 ```
 
 
