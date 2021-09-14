@@ -13,3 +13,7 @@ config :at_ex,
   bank_checkout_product_name: "AtEx",
   bank_transfer_product_name: "AtEx",
   card_checkout_product_name: "AtEx"
+
+# Configure tesla to use the Hackney Adapter for
+# your application and the at_ex module
+config :tesla, adapter: Tesla.Adapter.Hackney
