@@ -35,7 +35,6 @@ defmodule AtEx.MixProject do
   defp deps do
     [
       {:tesla, "~> 1.4.3"},
-      {:hackney, "~> 1.17"},
       {:jason, "~> 1.1"},
       {:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
