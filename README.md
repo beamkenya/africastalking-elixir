@@ -35,7 +35,10 @@ Available in Hex, the package can be installed by adding `at_ex` to your list of
 ```elixir
 def deps do
   [
-    {:at_ex, "~> 0.20.22"}
+    {:at_ex, "~> 0.20.22"},
+    
+    # Optional, but recommended for prod
+    {:hackney, "~> 1.17", only: :prod}
   ]
 end
 ```
