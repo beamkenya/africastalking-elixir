@@ -34,9 +34,12 @@ defmodule AtEx.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:tesla, "~> 1.4.3"},
-      {:jason, "~> 1.1"},
-      {:ex_doc, "~> 0.19", only: :dev, runtime: false}
+      #{:tesla, "~> 1.4.3"},
+      #{:jason, "~> 1.1"},
+      {:jason, "~> 1.4"},
+      {:tesla, "~> 1.8"},
+      {:ex_doc, "~> 0.31.1", only: :dev, runtime: false}
+      #{:ex_doc, "~> 0.19", only: :dev, runtime: false}
     ]
   end
 
