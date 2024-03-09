@@ -21,9 +21,11 @@ defmodule AtEx.Gateway.Application do
       iex> AtEx.Gateway.Application.get_data()
       {:ok, %{"UserData" => %{"balance" => "ZAR -1.3448"}} }
   """
+
   @spec get_data :: {:ok, map()} | {:error, term()}
   def get_data do
-    username = Application.get_env(:at_ex, :username)
+  # changed Application.get_env to 
+    username = Application.fetch_env(:at_ex, :username)
 
     params =
       %{}
