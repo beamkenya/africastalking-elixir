@@ -5,8 +5,8 @@ defmodule AtEx.Gateway.Sms.Bulk do
   This module holds the implementation for the HTTP Gateway that runs calls against the Africas Talking API
   SMS endpoint, use it to POST and GET requests to the SMS endpoint
   """
-  @live_url "https://api.africastalking.com/version1"
-  @sandbox_url "https://api.sandbox.africastalking.com/version1"
+  @live_url "https://api.africastalking.com/version1/messaging"
+  @sandbox_url "https://api.sandbox.africastalking.com/version1/messaging"
 
   use AtEx.Gateway.Base, url: get_url(@live_url, @sandbox_url)
 
