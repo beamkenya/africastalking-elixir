@@ -34,7 +34,6 @@ defmodule AtEx.Gateway.Base do
 
       @accept "application/json"
       @content_type "application/x-www-form-urlencoded"
-      @key Application.fetch_env(:at_ex, :api_key)
 
       plug(Tesla.Middleware.BaseUrl, @config[:url])
 

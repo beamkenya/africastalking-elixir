@@ -68,17 +68,16 @@ defmodule AtEx.Gateway.Payments.Bank.Checkout do
       !Map.has_key?(attrs, :bankAccount) || !is_map(attrs.bankAccount) ->
         {:error, "The required member 'bankAccount' must be a map"}
 
-      is_map(attrs.bankAccount) && !Map.has_key?(attrs.bankAccount, :accountName) ->
+      !Map.has_key?(attrs.bankAccount, :accountName) ->
         {:error, "The 'bankAccount' map is missing required member 'accountName'"}
 
-      is_map(attrs.bankAccount) && !Map.has_key?(attrs.bankAccount, :accountNumber) ->
+      !Map.has_key?(attrs.bankAccount, :accountNumber) ->
         {:error, "The 'bankAccount' map is missing required member 'accountNumber'"}
 
-      is_map(attrs.bankAccount) and !Map.has_key?(attrs.bankAccount, :bankCode) ->
+      !Map.has_key?(attrs.bankAccount, :bankCode) ->
         {:error, "The 'bankAccount' map is missing required member 'bankCode'"}
 
-      is_map(attrs.bankAccount) and attrs.bankAccount.bankCode === 234_002 and
-          !Map.has_key?(attrs.bankAccount, :dateOfBirth) ->
+      attrs.bankAccount.bankCode === 234_002 and !Map.has_key?(attrs.bankAccount, :dateOfBirth) ->
         {:error,
          "The 'bankAccount' map is missing optional member 'dateOfBirth' required for this bank"}
 

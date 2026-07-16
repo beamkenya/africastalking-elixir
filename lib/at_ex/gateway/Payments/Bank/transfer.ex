@@ -78,17 +78,17 @@ defmodule AtEx.Gateway.Payments.Bank.Transfer do
             !Map.has_key?(param, :bankAccount) || !is_map(param.bankAccount) ->
               {:error, "The required member 'bankAccount' must be a map"}
 
-            is_map(param.bankAccount) && !Map.has_key?(param.bankAccount, :accountName) ->
+            !Map.has_key?(param.bankAccount, :accountName) ->
               {:error, "The 'bankAccount' map is missing required member 'accountName'"}
 
-            is_map(param.bankAccount) && !Map.has_key?(param.bankAccount, :accountNumber) ->
+            !Map.has_key?(param.bankAccount, :accountNumber) ->
               {:error, "The 'bankAccount' map is missing required member 'accountNumber'"}
 
-            is_map(param.bankAccount) and !Map.has_key?(param.bankAccount, :bankCode) ->
+            !Map.has_key?(param.bankAccount, :bankCode) ->
               {:error, "The 'bankAccount' map is missing required member 'bankCode'"}
 
-            is_map(param.bankAccount) and param.bankAccount.bankCode === 234_002 and
-                !Map.has_key?(attrs.bankAccount, :dateOfBirth) ->
+            param.bankAccount.bankCode === 234_002 and
+                !Map.has_key?(param.bankAccount, :dateOfBirth) ->
               {:error,
                "The 'bankAccount' map is missing optional member 'dateOfBirth' required for this bank"}
 
